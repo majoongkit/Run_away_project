@@ -48,17 +48,19 @@ namespace Project_game1
 
         Texture2D key;
         Vector2 keyPosition = new Vector2();
-        int keyPos = new int();
+        //int keyPos = new int();
 
         Texture2D evidence;
         Vector2[] evidencePosition = new Vector2[5];
         int[] eviPos = new int[5];
 
+        SpriteFont font;
+
         //Random rand = new Random();
 
-        Texture2D barTexture;
-        Vector2 barPos = new Vector2();
-        int currentHeart;
+        //Texture2D barTexture;
+        //Vector2 barPos = new Vector2();
+        //int currentHeart;
 
 
 
@@ -126,16 +128,16 @@ namespace Project_game1
             }
             */
 
-            waterbottPosition[0].X = 300;
+            waterbottPosition[0].X = 900;
             waterbottPosition[0].Y = 450;
 
-            waterbottPosition[1].X = 950;
+            waterbottPosition[1].X = 1200;
             waterbottPosition[1].Y = 450;
 
-            waterbottPosition[2].X = 1500;
+            waterbottPosition[2].X = 1600;
             waterbottPosition[2].Y = 450;
 
-            waterbottPosition[3].X = 2600;
+            waterbottPosition[3].X = 2000;
             waterbottPosition[3].Y = 455;
 
             waterbottPosition[4].X = 2800;
@@ -144,36 +146,41 @@ namespace Project_game1
             waterbottPosition[5].X = 3000;
             waterbottPosition[5].Y = 450;
 
-            syringePosition[0].X = 600;
+            syringePosition[0].X = 700;
             syringePosition[0].Y = 450;
 
-            syringePosition[1].X = 1300;
+            syringePosition[1].X = 2500;
             syringePosition[1].Y = 450;
 
-            syringePosition[2].X = 1900;
+            syringePosition[2].X = 3500;
             syringePosition[2].Y = 450;
 
-            syringePosition[3].X = 2200;
+            syringePosition[3].X = 3200;
             syringePosition[3].Y = 450;
  
 
-            evidencePosition[0].X = 750;
+            evidencePosition[0].X = 1050;
             evidencePosition[0].Y = 470;
 
-            evidencePosition[1].X = 1250;
+            evidencePosition[1].X = 2950;
             evidencePosition[1].Y = 450;
 
-            evidencePosition[2].X = 2100;
+            evidencePosition[2].X = 3450;
             evidencePosition[2].Y = 450;
 
             evidencePosition[3].X = 2500;
             evidencePosition[3].Y = 455;
 
-            evidencePosition[4].X = 2950;
+            evidencePosition[4].X = 3050;
             evidencePosition[4].Y = 455;
 
-            barTexture = Content.Load<Texture2D>("HealthBar_thumb");   
-            currentHeart = barTexture.Width - 5;
+            keyPosition.X = 3800;
+            keyPosition.Y = 480;
+
+            font = Content.Load<SpriteFont>("ArialFont");
+
+            //barTexture = Content.Load<Texture2D>("HealthBar_thumb");   
+            //currentHeart = barTexture.Width - 5;
         }
 
         protected override void Update(GameTime gameTime)
@@ -228,9 +235,9 @@ namespace Project_game1
             }
 
 
-            if (playerPos.X < graphics.GraphicsDevice.Viewport.Width * 4 - 60)  
+            if (playerPos.X < graphics.GraphicsDevice.Viewport.Width * 5 - 60)  
             {
-                if (playerPos.X - cameraPos.X >= 300 && cameraPos.X < graphics.GraphicsDevice.Viewport.Width * 4)
+                if (playerPos.X - cameraPos.X >= 300 && cameraPos.X < graphics.GraphicsDevice.Viewport.Width * 5)
                 {
                     cameraPos += new Vector2(2, 0);
                 }
@@ -252,9 +259,9 @@ namespace Project_game1
 
             for (int i = 0; i < 4; i++)
             {
-                Rectangle blockRectangle = new Rectangle((int)syringePosition[i].X, (int)syringePosition[i].Y, syringe.Width, syringe.Height);
+                Rectangle blockRectangles = new Rectangle((int)syringePosition[i].X, (int)syringePosition[i].Y, syringe.Width, syringe.Height);
 
-                if (playerRectangle.Intersects(blockRectangle) == true)
+                if (playerRectangle.Intersects(blockRectangles) == true)
                 {
                     personHit = true;
 
@@ -264,7 +271,7 @@ namespace Project_game1
                     //syringePos[i] = rand.Next(1);
 
                 }
-                else if (playerRectangle.Intersects(blockRectangle) == false)
+                else if (playerRectangle.Intersects(blockRectangles) == false)
                 {
                     personHit = false;
                 }
@@ -273,9 +280,9 @@ namespace Project_game1
 
             for (int i = 0; i < 6; i++)
             {
-                Rectangle blockRectangle = new Rectangle((int)waterbottPosition[i].X, (int)waterbottPosition[i].Y, waterbottle.Width, waterbottle.Height);
+                Rectangle blockRectangles = new Rectangle((int)waterbottPosition[i].X, (int)waterbottPosition[i].Y, waterbottle.Width, waterbottle.Height);
 
-                if (playerRectangle.Intersects(blockRectangle) == true)
+                if (playerRectangle.Intersects(blockRectangles) == true)
                 {
                     personHit = true;
 
@@ -285,7 +292,7 @@ namespace Project_game1
                     waterbottPosition[i].Y = 500;
                     //waterPos[i] = rand.Next(1);
                 }
-                else if (playerRectangle.Intersects(blockRectangle) == false)
+                else if (playerRectangle.Intersects(blockRectangles) == false)
                 {
                     personHit = false;
                 }
@@ -293,9 +300,9 @@ namespace Project_game1
 
             for (int i = 0; i < 5; i++)
             {
-                Rectangle blockRectangle = new Rectangle((int)evidencePosition[i].X, (int)evidencePosition[i].Y, evidence.Width, evidence.Height);
+                Rectangle blockRectangles = new Rectangle((int)evidencePosition[i].X, (int)evidencePosition[i].Y, evidence.Width, evidence.Height);
 
-                if (playerRectangle.Intersects(blockRectangle) == true)
+                if (playerRectangle.Intersects(blockRectangles) == true)
                 {
                     personHit = true;
 
@@ -303,13 +310,30 @@ namespace Project_game1
                     evidencePosition[i].Y = 500;
 
                 }
-                else if (playerRectangle.Intersects(blockRectangle) == false)
+                else if (playerRectangle.Intersects(blockRectangles) == false)
                 {
                     personHit = false;
                 }
 
                 
             }
+
+            Rectangle blockRectangle = new Rectangle((int)keyPosition.X, (int)keyPosition.Y, key.Width, key.Height);
+
+            if (playerRectangle.Intersects(blockRectangle) == true)
+            {
+                personHit = true;
+
+                keyPosition.X = -50;
+                keyPosition.Y = 500;
+
+            }
+            else if (playerRectangle.Intersects(blockRectangle) == false)
+            {
+                personHit = false;
+            }
+
+
 
             base.Update(gameTime);
         }
@@ -327,6 +351,8 @@ namespace Project_game1
             //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
             //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 2, 0), Color.White);
             //spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
+            //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 4, 0), Color.White);
+            
             player.DrawFrame(spriteBatch, (playerPos - cameraPos));
 
             for (int i = 0; i < syringePosition.Length; i++)
@@ -350,16 +376,23 @@ namespace Project_game1
             }
 
 
-            spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 2 - barTexture.Width / 2, 30, barTexture.Width, 44), new Rectangle(0, 0, barTexture.Width - 4, 59), Color.White);
-            if (currentHeart < barTexture.Width / 10 * 3)
-            {
-                spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 2 - barTexture.Width / 2, 30, currentHeart, 42), new Rectangle(0, 58, barTexture.Width - 10, 60), Color.DarkRed);
-            }
+            //spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 2 - barTexture.Width / 2, 30, barTexture.Width, 44), new Rectangle(0, 0, barTexture.Width - 4, 59), Color.White);
+            //if (currentHeart < barTexture.Width / 10 * 3)
+            //{
+            //    spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 2 - barTexture.Width / 2, 30, currentHeart, 42), new Rectangle(0, 58, barTexture.Width - 10, 60), Color.DarkRed);
+            //}
 
-            else
-            {
-                spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 2 - barTexture.Width / 2, 30, currentHeart, 42), new Rectangle(0, 58, barTexture.Width - 10, 60), Color.Green);
-            }
+            //else
+            //{
+            //    spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 2 - barTexture.Width / 2, 30, currentHeart, 42), new Rectangle(0, 58, barTexture.Width - 10, 60), Color.Green);
+            //}
+
+            spriteBatch.Draw(key, keyPosition - cameraPos, Color.White);
+
+            string str;
+            spriteBatch.Begin();
+            str = "Maneerat Joongkitjaroenpaisan 642110293";
+            spriteBatch.DrawString(font, str, new Vector2(50, 100), Color.DarkRed);
 
             spriteBatch.End();
 

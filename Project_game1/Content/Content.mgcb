@@ -13,6 +13,16 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ../../../ArialFont.spritefont.txt
+/importer:
+/processor:
+/build:../../../ArialFont.spritefont.txt;ArialFont.spritefont.txt
+
+#begin ArialFont.spritefont.txt
+/importer:
+/processor:
+/build:ArialFont.spritefont.txt
+
 #begin BG1.png
 /importer:TextureImporter
 /processor:TextureProcessor
