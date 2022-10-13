@@ -89,7 +89,7 @@ namespace Project_game1
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //bg = Content.Load<Texture2D>("BG4");
+            bg = Content.Load<Texture2D>("BG5");
             //bg2 = Content.Load<Texture2D>("BG3");
             player.Load(Content, "player_walk", 6, 2, 24);
 
@@ -346,12 +346,12 @@ namespace Project_game1
 
             spriteBatch.Begin();
 
-            //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor, Color.White);
+            spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor, Color.White);
             //spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor, Color.White);
-            //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
-            //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 2, 0), Color.White);
+            spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
+            spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 2, 0), Color.White);
             //spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
-            //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 4, 0), Color.White);
+            spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 4, 0), Color.White);
             
             player.DrawFrame(spriteBatch, (playerPos - cameraPos));
 
@@ -390,7 +390,7 @@ namespace Project_game1
             spriteBatch.Draw(key, keyPosition - cameraPos, Color.White);
 
             string str;
-            str = "Evidence : ";
+            str = "Evidence : 0 ";
             spriteBatch.DrawString(font, str, new Vector2(0, 150), Color.DarkRed);
 
             spriteBatch.End();
