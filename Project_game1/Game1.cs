@@ -390,9 +390,8 @@ namespace Project_game1
             spriteBatch.Draw(key, keyPosition - cameraPos, Color.White);
 
             string str;
-            spriteBatch.Begin();
-            str = "Maneerat Joongkitjaroenpaisan 642110293";
-            spriteBatch.DrawString(font, str, new Vector2(50, 100), Color.DarkRed);
+            str = "Evidence : ";
+            spriteBatch.DrawString(font, str, new Vector2(0, 150), Color.DarkRed);
 
             spriteBatch.End();
 

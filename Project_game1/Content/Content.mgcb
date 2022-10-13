@@ -13,15 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ../../../ArialFont.spritefont.txt
-/importer:
-/processor:
-/build:../../../ArialFont.spritefont.txt;ArialFont.spritefont.txt
-
-#begin ArialFont.spritefont.txt
-/importer:
-/processor:
-/build:ArialFont.spritefont.txt
+#begin ArialFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:ArialFont.spritefont
 
 #begin BG1.png
 /importer:TextureImporter
