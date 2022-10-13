@@ -62,7 +62,6 @@ namespace Project_game1
 
 
 
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
