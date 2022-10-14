@@ -64,9 +64,9 @@ namespace Project_game1
         AnimatedTexture ghost;
         int ghostTimer = 0;
         
-        //Texture2D barTexture;
-        //Vector2 barPos = new Vector2();
-        //int currentHeart;
+        Texture2D barTexture;
+        Vector2 barPos = new Vector2();
+        int currentHeart;
 
         public Game1()
         {
@@ -116,6 +116,9 @@ namespace Project_game1
 
             //key = Content.Load<Texture2D>("evidence1");
             evidence = Content.Load<Texture2D>("evidence2");
+
+            barTexture = Content.Load<Texture2D>("HP_stamina");
+            currentHeart = barTexture.Width - 5;
 
 
             // TODO: use this.Content to load your game content here
@@ -192,8 +195,7 @@ namespace Project_game1
             //    ghostTimer = 0;
             //}
 
-            //barTexture = Content.Load<Texture2D>("HealthBar_thumb");   
-            //currentHeart = barTexture.Width - 5;
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -211,7 +213,7 @@ namespace Project_game1
                 if (cloudPos[i].X > graphics.GraphicsDevice.Viewport.Width)
                 {
                     cloudPos[i].X = r.Next(0, graphics.GraphicsDevice.Viewport.Height - cloud.Height);
-                    cloudPos[i].Y = 0;
+                    cloudPos[i].Y = 100;
                     scaleCloud[i].X = scaleCloud[i].X;
                     scaleCloud[i].Y = r.Next(1, 2);
                 }
@@ -381,27 +383,27 @@ namespace Project_game1
                 spriteBatch.Draw(evidence, evidencePosition[i] - cameraPos, new Rectangle(24 * eviPos[i], 0, 24, 24), Color.White);
             }
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < cloudPos.Length; i++)
             {
                 spriteBatch.Draw(cloud, cloudPos[i], null, Color.White, 0, Vector2.Zero, scaleCloud[i], 0, 0);
             }
 
-            //spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 2 - barTexture.Width / 2, 30, barTexture.Width, 44), new Rectangle(0, 0, barTexture.Width - 4, 59), Color.White);
-            //if (currentHeart < barTexture.Width / 10 * 3)
-            //{
-            //    spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 2 - barTexture.Width / 2, 30, currentHeart, 42), new Rectangle(0, 58, barTexture.Width - 10, 60), Color.DarkRed);
-            //}
+            spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barTexture.Width / 1, 5, barTexture.Width, 44), new Rectangle(0, 0, barTexture.Width - 4, 59), Color.White);
+            if (currentHeart < barTexture.Width / 10 * 3)
+            {
+                spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barTexture.Width / 1, 5, currentHeart, 42), new Rectangle(0, 58, barTexture.Width - 10, 60), Color.DarkRed);
+            }
 
-            //else
-            //{
-            //    spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 2 - barTexture.Width / 2, 30, currentHeart, 42), new Rectangle(0, 58, barTexture.Width - 10, 60), Color.Green);
-            //}
+            else
+            {
+                spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barTexture.Width / 1, 5, currentHeart, 42), new Rectangle(0, 58, barTexture.Width - 10, 60), Color.Green);
+            }
 
             //spriteBatch.Draw(key, keyPosition - cameraPos, Color.White);
 
             string str;
             str = "Evidence : 0 ";
-            spriteBatch.DrawString(font, str, new Vector2(0, 170), Color.White);
+            spriteBatch.DrawString(font, str, new Vector2(0, 5), Color.White);
 
             spriteBatch.End();
 
