@@ -50,19 +50,23 @@ namespace Project_game1
         int[] speed;
 
         Random r = new Random();
-     
+
         //Texture2D key;
         //Vector2 keyPosition = new Vector2();
         //int keyPos = new int();
 
+        int evidences = 0;
         Texture2D evidence;
         Vector2[] evidencePosition = new Vector2[5];
         int[] eviPos = new int[5];
 
         SpriteFont font;
 
-        AnimatedTexture ghost;
-        int ghostTimer = 0;
+        //AnimatedTexture ghost;
+        //int ghostTimer = 0;
+
+        //AnimatedTexture docter;
+        //int docterTimer = 0;
         
         Texture2D barTexture;
         Vector2 barPos = new Vector2();
@@ -97,7 +101,7 @@ namespace Project_game1
             bg2 = Content.Load<Texture2D>("BG6");
             bg4 = Content.Load<Texture2D>("BG7");
 
-            player.Load(Content, "player_walk", 6, 2, 24);
+            player.Load(Content, "player_walk2", 6, 2, 24);
 
             syringe = Content.Load<Texture2D>("syringe");
             waterbottle = Content.Load<Texture2D>("waterbottle");
@@ -195,7 +199,18 @@ namespace Project_game1
             //    ghostTimer = 0;
             //}
 
-            
+            //if (docter.Visible == false)
+            //{
+            //    docterTimer += 1;
+            //}
+
+            //if (docterTimer == 200 && ghost.Visible == false)
+            //{
+            //    docter.Visible = true;
+            //    docterTimer = 0;
+            //}
+
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -401,6 +416,13 @@ namespace Project_game1
 
             //spriteBatch.Draw(key, keyPosition - cameraPos, Color.White);
 
+            if (!isGameOver)
+            {
+                string str;
+                str = "Game Over";
+                spriteBatch.DrawString(font, str, new Vector2(0, 5), Color.White);
+            }
+
             string str;
             str = "Evidence : 0 ";
             spriteBatch.DrawString(font, str, new Vector2(0, 5), Color.White);
@@ -415,6 +437,7 @@ namespace Project_game1
             isJumping = false;
             isGrounded = true;
             isGameOver = false;
+            evidences = 0;
             
         }
     }
