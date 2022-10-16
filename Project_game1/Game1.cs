@@ -10,9 +10,14 @@ namespace Project_game1
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        //background
-        Texture2D bg;
-        Texture2D bg2;
+        //mainmenu
+        Texture2D title;
+        bool isTitle;
+        
+        Texture2D gameplay;
+        bool isGameplay;
+
+        Texture2D gameplay2;
         Texture2D bg4;
         Vector2 bgPos = Vector2.Zero;
         Vector2 bgPos2 = Vector2.Zero;
@@ -55,7 +60,7 @@ namespace Project_game1
         //Vector2 keyPosition = new Vector2();
         //int keyPos = new int();
 
-        int evidences = 0;
+        //int evidences = 0;
         Texture2D evidence;
         Vector2[] evidencePosition = new Vector2[5];
         int[] eviPos = new int[5];
@@ -97,9 +102,13 @@ namespace Project_game1
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            bg = Content.Load<Texture2D>("BG5");
-            bg2 = Content.Load<Texture2D>("BG6");
+            gameplay = Content.Load<Texture2D>("BG5");
+            gameplay2 = Content.Load<Texture2D>("BG6");
             bg4 = Content.Load<Texture2D>("BG7");
+
+            title = Content.Load<Texture2D>("Title");
+            isTitle = true;
+            isGameplay = false;
 
             player.Load(Content, "player_walk2", 6, 2, 24);
 
@@ -219,7 +228,19 @@ namespace Project_game1
                 Exit();
 
             // TODO: Add your update logic here
+            if (isGameplay == true)
+            {
+                UpdateGameplay();
+            }
 
+            else if (isTitle == true)
+            {
+                UpdateTitle();
+            }
+
+
+
+            //player
             player.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             for (int i = 0; i < 2; i++)
@@ -235,7 +256,6 @@ namespace Project_game1
                 
             }
   
-
             if (!isJumping)
             {
                 isGrounded = true;
@@ -251,6 +271,13 @@ namespace Project_game1
                 jumpSpeed = -10;
                 force -= 5;
                 isGrounded = false;
+            }
+
+            if (!isGameOver)
+            {
+                string str;
+                str = "Game Over";
+               
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && isGrounded)
@@ -374,11 +401,23 @@ namespace Project_game1
 
             spriteBatch.Begin();
 
+            if (isGameplay == true)
+            {
+                DrawGameplay();
+            }
+
+            if (isTitle == true)
+            {
+                DrawTitle();
+            }
+
+           
+
             //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor, Color.White);
-            spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor, Color.White);
-            spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
-            spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 2, 0), Color.White);
-            spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
+            spriteBatch.Draw(gameplay2, (bgPos2 - cameraPos) * scroll_factor, Color.White);
+            spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
+            spriteBatch.Draw(gameplay2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 2, 0), Color.White);
+            spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
             spriteBatch.Draw(bg4, (bgPos4 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 4, 0), Color.White);
             
             player.DrawFrame(spriteBatch, (playerPos - cameraPos));
@@ -416,13 +455,12 @@ namespace Project_game1
 
             //spriteBatch.Draw(key, keyPosition - cameraPos, Color.White);
 
-            if (!isGameOver)
-            {
-                string str;
-                str = "Game Over";
-                spriteBatch.DrawString(font, str, new Vector2(0, 5), Color.White);
-            }
+            //if (!isGameOver)
+            //{
+            //    spriteBatch.DrawString(font, str, new Vector2(0, 5), Color.White);
 
+            //}
+            
             string str;
             str = "Evidence : 0 ";
             spriteBatch.DrawString(font, str, new Vector2(0, 5), Color.White);
@@ -432,12 +470,40 @@ namespace Project_game1
             base.Draw(gameTime);
         }
 
+        private void UpdateGameplay()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) == true)
+            {
+                isGameplay = true;
+                isTitle = false;
+            }
+        }
+
+        private void UpdateTitle()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) == true)
+            {
+                isTitle = false;
+                isGameplay = true;
+            }
+        }
+
+        private void DrawGameplay()
+        {
+            spriteBatch.Draw(gameplay, Vector2.Zero, Color.White);
+        }
+
+        private void DrawTitle()
+        {
+            spriteBatch.Draw(title, Vector2.Zero, Color.White);
+        }
+
         private void RestartGame()
         {
             isJumping = false;
             isGrounded = true;
             isGameOver = false;
-            evidences = 0;
+            //evidences = 0;
             
         }
     }
