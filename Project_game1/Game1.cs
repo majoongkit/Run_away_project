@@ -60,7 +60,13 @@ namespace Project_game1
         //Vector2 keyPosition = new Vector2();
         //int keyPos = new int();
 
-        //int evidences = 0;
+        int evidences = 0;
+
+        bool speedUp;
+        float countdownSpeed = 2;
+        float currentCountdownspeed;
+        float playerSpeed = 2;
+
         Texture2D evidence;
         Vector2[] evidencePosition = new Vector2[5];
         int[] eviPos = new int[5];
@@ -77,6 +83,8 @@ namespace Project_game1
         Vector2 barPos = new Vector2();
         int currentHeart;
 
+
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -102,7 +110,7 @@ namespace Project_game1
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gameplay = Content.Load<Texture2D>("BG5");
+            //gameplay = Content.Load<Texture2D>("BG5");
             gameplay2 = Content.Load<Texture2D>("BG6");
             bg4 = Content.Load<Texture2D>("BG7");
 
@@ -230,7 +238,7 @@ namespace Project_game1
             // TODO: Add your update logic here
             if (isGameplay == true)
             {
-                UpdateGameplay();
+                UpdateGameplay(gameTime);
             }
 
             else if (isTitle == true)
@@ -240,22 +248,47 @@ namespace Project_game1
 
 
 
+
+
+            base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            // TODO: Add your drawing code here
+
+            spriteBatch.Begin();
+
+            if (isGameplay == true)
+            {
+                DrawGameplay();
+            }
+
+            if (isTitle == true)
+            {
+                DrawTitle();
+            }
+
+
+            spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+
+        private void UpdateGameplay(GameTime gameTime)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.F1) == true)
+            {
+                isGameplay = false;
+                isTitle = true;
+            }
+
             //player
             player.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            for (int i = 0; i < 2; i++)
-            {
-                cloudPos[i].X = cloudPos[i].X + speed[i];
-                if (cloudPos[i].X > graphics.GraphicsDevice.Viewport.Width)
-                {
-                    cloudPos[i].X = r.Next(0, graphics.GraphicsDevice.Viewport.Height - cloud.Height);
-                    cloudPos[i].Y = 100;
-                    scaleCloud[i].X = scaleCloud[i].X;
-                    scaleCloud[i].Y = r.Next(1, 2);
-                }
-                
-            }
-  
+
             if (!isJumping)
             {
                 isGrounded = true;
@@ -277,7 +310,20 @@ namespace Project_game1
             {
                 string str;
                 str = "Game Over";
-               
+
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                cloudPos[i].X = cloudPos[i].X + speed[i];
+                if (cloudPos[i].X > graphics.GraphicsDevice.Viewport.Width)
+                {
+                    cloudPos[i].X = r.Next(0, graphics.GraphicsDevice.Viewport.Height - cloud.Height);
+                    cloudPos[i].Y = 100;
+                    scaleCloud[i].X = scaleCloud[i].X;
+                    scaleCloud[i].Y = r.Next(1, 2);
+                }
+
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && isGrounded)
@@ -292,14 +338,14 @@ namespace Project_game1
                 RestartGame();
             }
 
-            if (playerPos.X < graphics.GraphicsDevice.Viewport.Width * 5 - 60)  
+            if (playerPos.X < graphics.GraphicsDevice.Viewport.Width * 5 - 60)
             {
                 if (playerPos.X - cameraPos.X >= 300 && cameraPos.X < graphics.GraphicsDevice.Viewport.Width * 5)
                 {
-                    cameraPos += new Vector2(2, 0);
+                    cameraPos += new Vector2(playerSpeed, 0);
                 }
                 player.Play();
-                playerPos += new Vector2(2, 0);
+                playerPos += new Vector2(playerSpeed, 0);
 
             }
 
@@ -346,6 +392,10 @@ namespace Project_game1
                     //waterbottPosition[i].X = rand.Next(x + graphics.GraphicsDevice.Viewport.Width - waterbottle.Width / 1);
                     waterbottPosition[i].X = -50;
                     waterbottPosition[i].Y = 500;
+
+                    speedUp = true;
+                    currentCountdownspeed = countdownSpeed;
+                    playerSpeed=5;
                     //waterPos[i] = rand.Next(1);
                 }
                 else if (playerRectangle.Intersects(blockRectangle) == false)
@@ -353,6 +403,21 @@ namespace Project_game1
                     personHit = false;
                 }
             }
+
+            if (speedUp == true)
+            {
+                if (currentCountdownspeed > 0)
+                {
+                    currentCountdownspeed -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+                else
+                {
+                    playerSpeed = 2;
+                    speedUp = false;
+                }
+
+            }
+
 
             for (int i = 0; i < 5; i++)
             {
@@ -365,13 +430,16 @@ namespace Project_game1
                     evidencePosition[i].X = -50;
                     evidencePosition[i].Y = 500;
 
+
+                    evidences++;
+
                 }
                 else if (playerRectangle.Intersects(blockRectangle) == false)
                 {
                     personHit = false;
                 }
 
-                
+
             }
 
             //Rectangle blockRectangle = new Rectangle((int)keyPosition.X, (int)keyPosition.Y, key.Width, key.Height);
@@ -390,36 +458,32 @@ namespace Project_game1
             //}
 
 
-            base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
+        private void UpdateTitle()
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
-            spriteBatch.Begin();
-
-            if (isGameplay == true)
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) == true)
             {
-                DrawGameplay();
+                isTitle = false;
+                isGameplay = true;
             }
+        }
 
-            if (isTitle == true)
-            {
-                DrawTitle();
-            }
+        private void DrawGameplay()
+        {
+            //spriteBatch.Draw(gameplay, Vector2.Zero, Color.White);
 
-           
+
+
+
 
             //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor, Color.White);
             spriteBatch.Draw(gameplay2, (bgPos2 - cameraPos) * scroll_factor, Color.White);
-            spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
+            //spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
             spriteBatch.Draw(gameplay2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 2, 0), Color.White);
-            spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
+            //spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
             spriteBatch.Draw(bg4, (bgPos4 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 4, 0), Color.White);
-            
+
             player.DrawFrame(spriteBatch, (playerPos - cameraPos));
 
             for (int i = 0; i < syringePosition.Length; i++)
@@ -460,42 +524,21 @@ namespace Project_game1
             //    spriteBatch.DrawString(font, str, new Vector2(0, 5), Color.White);
 
             //}
-            
+
             string str;
-            str = "Evidence : 0 ";
+            str = "Evidence : "+evidences;
             spriteBatch.DrawString(font, str, new Vector2(0, 5), Color.White);
 
-            spriteBatch.End();
-
-            base.Draw(gameTime);
-        }
-
-        private void UpdateGameplay()
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter) == true)
-            {
-                isGameplay = true;
-                isTitle = false;
-            }
-        }
-
-        private void UpdateTitle()
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter) == true)
-            {
-                isTitle = false;
-                isGameplay = true;
-            }
-        }
-
-        private void DrawGameplay()
-        {
-            spriteBatch.Draw(gameplay, Vector2.Zero, Color.White);
         }
 
         private void DrawTitle()
         {
             spriteBatch.Draw(title, Vector2.Zero, Color.White);
+
+            //bg
+            //text1
+            //text2
+            //logo
         }
 
         private void RestartGame()
