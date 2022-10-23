@@ -14,7 +14,7 @@ namespace Project_game1
         Texture2D title;
         bool isTitle;
         
-        Texture2D gameplay;
+        //Texture2D gameplay;
         bool isGameplay;
 
         Texture2D gameplay2;
@@ -25,18 +25,32 @@ namespace Project_game1
         
         //player
         AnimatedTexture player;
+        AnimatedTexture playerJump;
+        AnimatedTexture playerSlide;
         Vector2 cameraPos = Vector2.Zero;        
         Vector2 playerPos = new Vector2(0, 467);
         Vector2 scroll_factor = new Vector2(1.0f, 1);
 
+        float _countDownJump = 0.3f;
+        float _currentTimeJump = 0;
+
+        float countDownSlide = 0.3f;
+        float currentTimeSlide = 0;
+
         bool isJumping;
+        bool isSlide;
         bool isGrounded;
         bool isGameOver;
 
         bool personHit;
 
-        public int jumpSpeed;
+        int jumpSpeed;
         int force;
+
+        bool speedUp;
+        float countdownSpeed = 2;
+        float currentCountdownspeed;
+        float playerSpeed = 2;
 
         //syringe
         Texture2D syringe;
@@ -55,21 +69,11 @@ namespace Project_game1
         int[] speed;
 
         Random r = new Random();
-
-        //Texture2D key;
-        //Vector2 keyPosition = new Vector2();
-        //int keyPos = new int();
-
-        int evidences = 0;
-
-        bool speedUp;
-        float countdownSpeed = 2;
-        float currentCountdownspeed;
-        float playerSpeed = 2;
-
+ 
         Texture2D evidence;
         Vector2[] evidencePosition = new Vector2[5];
         int[] eviPos = new int[5];
+        int evidences = 0;
 
         SpriteFont font;
 
@@ -89,6 +93,9 @@ namespace Project_game1
         {
             graphics = new GraphicsDeviceManager(this);
             player = new AnimatedTexture(Vector2.Zero, 0, 1.0f, 1.0f);
+            playerJump = new AnimatedTexture(Vector2.Zero, 0, 1.0f, 1.0f);
+            playerSlide = new AnimatedTexture(Vector2.Zero, 0, 1.0f, 1.0f);
+
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             graphics.ApplyChanges();
@@ -114,11 +121,13 @@ namespace Project_game1
             gameplay2 = Content.Load<Texture2D>("BG6");
             bg4 = Content.Load<Texture2D>("BG7");
 
-            title = Content.Load<Texture2D>("Title");
+            title = Content.Load<Texture2D>("Title2");
             isTitle = true;
             isGameplay = false;
 
             player.Load(Content, "player_walk2", 6, 2, 24);
+            playerJump.Load(Content, "player_jump", 5, 1, 12);
+            playerSlide.Load(Content, "player_slide", 4, 1, 12);
 
             syringe = Content.Load<Texture2D>("syringe");
             waterbottle = Content.Load<Texture2D>("waterbottle");
@@ -135,7 +144,6 @@ namespace Project_game1
                 speed[i] = r.Next(2, 3);
             }
 
-            //key = Content.Load<Texture2D>("evidence1");
             evidence = Content.Load<Texture2D>("evidence2");
 
             barTexture = Content.Load<Texture2D>("HP_stamina");
@@ -177,7 +185,7 @@ namespace Project_game1
             waterbottPosition[5].Y = 470;
 
             syringePosition[0].X = 700;
-            syringePosition[0].Y = 440;
+            syringePosition[0].Y = 470;
 
             syringePosition[1].X = 1800;
             syringePosition[1].Y = 440;
@@ -247,9 +255,6 @@ namespace Project_game1
             }
 
 
-
-
-
             base.Update(gameTime);
         }
 
@@ -271,7 +276,6 @@ namespace Project_game1
                 DrawTitle();
             }
 
-
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -279,17 +283,31 @@ namespace Project_game1
 
         private void UpdateGameplay(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.F1) == true)
-            {
-                isGameplay = false;
-                isTitle = true;
-            }
-
             //player
             player.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
+            playerJump.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
+            playerSlide.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            if (playerPos.X < graphics.GraphicsDevice.Viewport.Width * 5 - 60)
+            {
+                if (playerPos.X - cameraPos.X >= 300 && cameraPos.X < graphics.GraphicsDevice.Viewport.Width * 5)
+                {
+                    cameraPos += new Vector2(playerSpeed, 0);
+                }
+
+                player.Play();
+
+                playerPos += new Vector2(playerSpeed, 0);
+
+            }
+
+            else
+            {
+                player.Pause(0, 0);
+            }
 
 
-            if (!isJumping)
+            if (isJumping == false)
             {
                 isGrounded = true;
             }
@@ -299,36 +317,66 @@ namespace Project_game1
                 isJumping = false;
             }
 
-            if (isJumping == true)
+            if (isSlide)
             {
-                jumpSpeed = -10;
-                force -= 5;
+                isJumping = false;
+                isGrounded = true;
+            }
+
+            //if (isJumping)
+            //{
+            //    jumpSpeed = -10;
+            //    force -= 5;
+            //    isGrounded = false;
+
+            //}
+
+            //////////////////////////////// Y
+            if (isJumping)
+            {
+                player.Pause();
+                playerPos = new Vector2(playerPos.X, 440);
+                _currentTimeJump -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_currentTimeJump < 0)
+                    isJumping = false;
+            }
+            else
+            {
+                playerPos = new Vector2(playerPos.X, 467);
+            }
+
+            if (isSlide)
+            {
+                player.Pause();
+                playerJump.Pause();
+                playerPos = new Vector2(playerPos.X, 497);
+                currentTimeSlide -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (currentTimeSlide < 0)
+                    isSlide = false;
+            }
+            else
+            {
+                playerPos = new Vector2(playerPos.X, 467);
+            }
+
+            //keyboard
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt) == true)
+            {
+                isGameplay = false;
+                isTitle = true;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftControl) && isGrounded)
+            {
+                isJumping = true;
                 isGrounded = false;
-            }
-
-            if (!isGameOver)
-            {
-                string str;
-                str = "Game Over";
-
-            }
-
-            for (int i = 0; i < 2; i++)
-            {
-                cloudPos[i].X = cloudPos[i].X + speed[i];
-                if (cloudPos[i].X > graphics.GraphicsDevice.Viewport.Width)
-                {
-                    cloudPos[i].X = r.Next(0, graphics.GraphicsDevice.Viewport.Height - cloud.Height);
-                    cloudPos[i].Y = 100;
-                    scaleCloud[i].X = scaleCloud[i].X;
-                    scaleCloud[i].Y = r.Next(1, 2);
-                }
-
+                _currentTimeJump = _countDownJump;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && isGrounded)
             {
-                isJumping = true;
+                isSlide = true;
+                isJumping = false;
                 isGrounded = false;
             }
 
@@ -338,21 +386,7 @@ namespace Project_game1
                 RestartGame();
             }
 
-            if (playerPos.X < graphics.GraphicsDevice.Viewport.Width * 5 - 60)
-            {
-                if (playerPos.X - cameraPos.X >= 300 && cameraPos.X < graphics.GraphicsDevice.Viewport.Width * 5)
-                {
-                    cameraPos += new Vector2(playerSpeed, 0);
-                }
-                player.Play();
-                playerPos += new Vector2(playerSpeed, 0);
 
-            }
-
-            else
-            {
-                player.Pause(0, 0);
-            }
 
             System.Console.WriteLine("Player Pos (x, y)" + playerPos);
             System.Console.WriteLine("Camera Player Pos (x, Y)" + (playerPos - cameraPos));
@@ -370,33 +404,12 @@ namespace Project_game1
                     //syringePosition[i].X = rand.Next(graphics.GraphicsDevice.Viewport.Width - syringe.Width / 1);
                     syringePosition[i].X = -50;
                     syringePosition[i].Y = 500;
-                    //syringePos[i] = rand.Next(1);
-
-                }
-                else if (playerRectangle.Intersects(blockRectangle) == false)
-                {
-                    personHit = false;
-                }
-            }
-
-
-            for (int i = 0; i < 6; i++)
-            {
-                Rectangle blockRectangle = new Rectangle((int)waterbottPosition[i].X, (int)waterbottPosition[i].Y, waterbottle.Width, waterbottle.Height);
-
-                if (playerRectangle.Intersects(blockRectangle) == true)
-                {
-                    personHit = true;
-
-                    //int x = ((int)cameraPos.X);
-                    //waterbottPosition[i].X = rand.Next(x + graphics.GraphicsDevice.Viewport.Width - waterbottle.Width / 1);
-                    waterbottPosition[i].X = -50;
-                    waterbottPosition[i].Y = 500;
 
                     speedUp = true;
                     currentCountdownspeed = countdownSpeed;
-                    playerSpeed=5;
-                    //waterPos[i] = rand.Next(1);
+                    playerSpeed = 5;
+                    //syringePos[i] = rand.Next(1);
+
                 }
                 else if (playerRectangle.Intersects(blockRectangle) == false)
                 {
@@ -419,6 +432,28 @@ namespace Project_game1
             }
 
 
+            for (int i = 0; i < 6; i++)
+            {
+                Rectangle blockRectangle = new Rectangle((int)waterbottPosition[i].X, (int)waterbottPosition[i].Y, waterbottle.Width, waterbottle.Height);
+
+                if (playerRectangle.Intersects(blockRectangle) == true)
+                {
+                    personHit = true;
+
+                    //int x = ((int)cameraPos.X);
+                    //waterbottPosition[i].X = rand.Next(x + graphics.GraphicsDevice.Viewport.Width - waterbottle.Width / 1);
+                    waterbottPosition[i].X = -50;
+                    waterbottPosition[i].Y = 500;
+
+                    //waterPos[i] = rand.Next(1);
+                }
+                else if (playerRectangle.Intersects(blockRectangle) == false)
+                {
+                    personHit = false;
+                }
+            }
+
+
             for (int i = 0; i < 5; i++)
             {
                 Rectangle blockRectangle = new Rectangle((int)evidencePosition[i].X, (int)evidencePosition[i].Y, evidence.Width, evidence.Height);
@@ -429,7 +464,6 @@ namespace Project_game1
 
                     evidencePosition[i].X = -50;
                     evidencePosition[i].Y = 500;
-
 
                     evidences++;
 
@@ -442,20 +476,26 @@ namespace Project_game1
 
             }
 
-            //Rectangle blockRectangle = new Rectangle((int)keyPosition.X, (int)keyPosition.Y, key.Width, key.Height);
 
-            //if (playerRectangle.Intersects(blockRectangle) == true)
-            //{
-            //    personHit = true;
+            for (int i = 0; i < 2; i++)
+            {
+                cloudPos[i].X = cloudPos[i].X + speed[i];
+                if (cloudPos[i].X > graphics.GraphicsDevice.Viewport.Width)
+                {
+                    cloudPos[i].X = r.Next(0, graphics.GraphicsDevice.Viewport.Height - cloud.Height);
+                    cloudPos[i].Y = 100;
+                    scaleCloud[i].X = scaleCloud[i].X;
+                    scaleCloud[i].Y = r.Next(1, 2);
+                }
 
-            //    keyPosition.X = -50;
-            //    keyPosition.Y = 500;
+            }
 
-            //}
-            //else if (playerRectangle.Intersects(blockRectangle) == false)
-            //{
-            //    personHit = false;
-            //}
+            if (isGameOver)
+            {
+                //string str;
+                //str = "Game Over";
+
+            }
 
 
         }
@@ -473,10 +513,6 @@ namespace Project_game1
         {
             //spriteBatch.Draw(gameplay, Vector2.Zero, Color.White);
 
-
-
-
-
             //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor, Color.White);
             spriteBatch.Draw(gameplay2, (bgPos2 - cameraPos) * scroll_factor, Color.White);
             //spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
@@ -484,7 +520,21 @@ namespace Project_game1
             //spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
             spriteBatch.Draw(bg4, (bgPos4 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 4, 0), Color.White);
 
-            player.DrawFrame(spriteBatch, (playerPos - cameraPos));
+            
+            if (isJumping)
+            {
+                playerJump.DrawFrame(spriteBatch, (playerPos - cameraPos));
+            }
+            else if (isSlide)
+            {
+                playerSlide.DrawFrame(spriteBatch, (playerPos - cameraPos));
+            }
+            else
+            {
+                player.DrawFrame(spriteBatch, (playerPos - cameraPos));
+            }
+
+            
 
             for (int i = 0; i < syringePosition.Length; i++)
             {
