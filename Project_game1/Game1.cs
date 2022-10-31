@@ -70,12 +70,16 @@ namespace Project_game1
 
         //HP
         Texture2D barHeartTexture;
+        Texture2D heart;
+        //Vector2 heartPos = new Vector2(50, 5);
         //Vector2 barPos = new Vector2();
         float currentHeart = 10;
         //float countdownHeart = 0.5f;
 
         //stamina
         Texture2D barStaminaTexture;
+        Texture2D stamina;
+        //Vector2 staminaPos = new Vector2(50, 50);
         float currentStamina = 0;
         //float countdownStamina = 0.5f;
 
@@ -106,8 +110,9 @@ namespace Project_game1
         SpriteFont font;
 
         //ghost
-        //AnimatedTexture ghost;
-        //int ghostTimer = 0;
+        Texture2D ghost;
+        Vector2[] ghostPosition = new Vector2[7];
+        int[] ghostPos = new int[7];
 
         //docter
         //AnimatedTexture docter;
@@ -161,7 +166,7 @@ namespace Project_game1
             gamePause = Content.Load<Texture2D>("Pause");
             isGamePause = false;
 
-            gameWin = Content.Load<Texture2D>("You_win");
+            gameWin = Content.Load<Texture2D>("You_win_fix");
             isGameWin = false;
 
             player.Load(Content, "player_walk2", 6, 2, 24);
@@ -185,13 +190,14 @@ namespace Project_game1
 
             evidence = Content.Load<Texture2D>("evidence2");
 
-            barHeartTexture = Content.Load<Texture2D>("HP_stamina");
+            barHeartTexture = Content.Load<Texture2D>("HP_stamina2");
             currentHeart = barHeartTexture.Width - 5;
 
-            barStaminaTexture = Content.Load<Texture2D>("HP_stamina");
+            barStaminaTexture = Content.Load<Texture2D>("HP_stamina2");
             //currentStamina = barStaminaTexture.Width - 5;
 
-            police_man = Content.Load<Texture2D>("police_man");
+            police_man = Content.Load<Texture2D>("police_man2");
+            ghost = Content.Load<Texture2D>("ghost");
 
 
             // TODO: use this.Content to load your game content here
@@ -293,8 +299,32 @@ namespace Project_game1
             evidencePosition[4].X = 5200;
             evidencePosition[4].Y = 430;
 
-            policePos.X = 5800;
-            policePos.Y = 467;
+            policePos.X = 6100;
+            policePos.Y = 470;
+
+            ghostPosition[0].X = 600;
+            ghostPosition[0].Y = 430;
+
+            ghostPosition[1].X = 1900;
+            ghostPosition[1].Y = 430;
+
+            ghostPosition[2].X = 2900;
+            ghostPosition[2].Y = 430;
+
+            ghostPosition[3].X = 3500;
+            ghostPosition[3].Y = 430;
+
+            ghostPosition[4].X = 4600;
+            ghostPosition[4].Y = 430;
+
+            ghostPosition[5].X = 5600;
+            ghostPosition[5].Y = 430;
+
+            ghostPosition[6].X = 6000;
+            ghostPosition[6].Y = 430;
+
+            //heartPos.X = 50;
+            //heartPos.Y = 5;
         }
 
         protected override void Update(GameTime gameTime)
@@ -533,7 +563,7 @@ namespace Project_game1
 
             for (int i = 0; i < waterbottPosition.Length; i++)
             {
-                waterbottPosition[i].Y += (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds));
+                //waterbottPosition[i].Y += (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds));
 
                 Rectangle blockRectangle = new Rectangle((int)waterbottPosition[i].X, (int)waterbottPosition[i].Y, waterbottle.Width, waterbottle.Height);
 
@@ -547,6 +577,31 @@ namespace Project_game1
                     waterbottPosition[i].Y = 500;
 
                     currentHeart += 100;
+
+                    //waterPos[i] = rand.Next(1);
+                }
+                else if (playerRectangle.Intersects(blockRectangle) == false)
+                {
+                    personHit = false;
+                }
+            }
+
+            for (int i = 0; i < ghostPosition.Length; i++)
+            {
+                ghostPosition[i].Y += (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds));
+
+                Rectangle blockRectangle = new Rectangle((int)ghostPosition[i].X, (int)ghostPosition[i].Y, ghost.Width, ghost.Height);
+
+                if (playerRectangle.Intersects(blockRectangle) == true)
+                {
+                    personHit = true;
+
+                    //int x = ((int)cameraPos.X);
+                    //waterbottPosition[i].X = rand.Next(x + graphics.GraphicsDevice.Viewport.Width - waterbottle.Width / 1);
+                    ghostPosition[i].X = -50;
+                    ghostPosition[i].Y = 500;
+
+                    currentHeart -= 50;
 
                     //waterPos[i] = rand.Next(1);
                 }
@@ -638,7 +693,11 @@ namespace Project_game1
 
         private void UpdateGameWin()
         {
-            
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && isGameWin == true)
+            {
+                //playerPos -= new Vector2(2, 0);
+                RestartGame();
+            }
         }
 
         private void UpdateyourDead()
@@ -691,6 +750,11 @@ namespace Project_game1
                 spriteBatch.Draw(waterbottle, waterbottPosition[i] - cameraPos, new Rectangle(24 * waterPos[i], 0, 24, 24), Color.White);
             }
 
+            for (int i = 0; i < ghostPosition.Length; i++)
+            {
+                spriteBatch.Draw(ghost, ghostPosition[i] - cameraPos, new Rectangle(24 * ghostPos[i], 0, 24, 24), Color.White);
+            }
+
             for (int i = 0; i < evidencePosition.Length; i++)
             {
                 spriteBatch.Draw(evidence, evidencePosition[i] - cameraPos, new Rectangle(24 * eviPos[i], 0, 24, 24), Color.White);
@@ -723,13 +787,9 @@ namespace Project_game1
                 spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1, 50, (int)currentStamina, 42), new Rectangle(0, 58, barStaminaTexture.Width - 10, 60), Color.Blue);
             }
 
+            spriteBatch.Draw(heart, new Vector2(50, 5), Color.White);
+
             //spriteBatch.Draw(key, keyPosition - cameraPos, Color.White);
-
-            //if (!isGameOver)
-            //{
-            //    spriteBatch.DrawString(font, str, new Vector2(0, 5), Color.White);
-
-            //}
 
             string str;
             str = "Evidence : " + evidences;
@@ -782,6 +842,7 @@ namespace Project_game1
             isJumping = false;            
             isGameOver = false;
             isDead = false;
+            isGameWin = false;
 
             playerPos = new Vector2(0, 467);
             cameraPos = Vector2.Zero;
@@ -789,7 +850,8 @@ namespace Project_game1
             evidences = 0;
             
             currentHeart = barHeartTexture.Width - 5;
-            currentStamina = barStaminaTexture.Width - 5;
+            currentStamina = 0;
+            //currentStamina = barStaminaTexture.Width - 5;
 
             ResetObjectPosition();
             

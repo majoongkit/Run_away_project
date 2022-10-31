@@ -176,6 +176,18 @@
 /processorParam:TextureFormat=Color
 /build:GameOver.png
 
+#begin ghost.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ghost.png
+
 #begin HealthBar_thumb.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -188,6 +200,18 @@
 /processorParam:TextureFormat=Color
 /build:HealthBar_thumb.png
 
+#begin heart.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:heart.png
+
 #begin HP_stamina.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -199,6 +223,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:HP_stamina.png
+
+#begin HP_stamina2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:HP_stamina2.png
 
 #begin Pause.png
 /importer:TextureImporter
@@ -259,6 +295,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:police_man.png
+
+#begin police_man2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:police_man2.png
+
+#begin stamina.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:stamina.png
 
 #begin syringe.png
 /importer:TextureImporter
@@ -331,6 +391,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:You_win.png
+
+#begin You_win_fix.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:You_win_fix.png
 
 #begin Your_dead.png
 /importer:TextureImporter
