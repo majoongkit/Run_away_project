@@ -72,22 +72,22 @@ namespace Project_game1
         Texture2D barHeartTexture;
         //Vector2 barPos = new Vector2();
         float currentHeart = 10;
-        float countdownHeart = 0.5f;
+        //float countdownHeart = 0.5f;
 
         //stamina
         Texture2D barStaminaTexture;
-        float currentStamina = 10;
-        float countdownStamina = 0.5f;
+        float currentStamina = 0;
+        //float countdownStamina = 0.5f;
 
         //syringe
         Texture2D syringe;
-        Vector2[] syringePosition = new Vector2[4];
-        int[] syringePos = new int[4];
+        Vector2[] syringePosition = new Vector2[5];
+        int[] syringePos = new int[5];
 
         //water
         Texture2D waterbottle;
-        Vector2[] waterbottPosition = new Vector2[6];
-        int[] waterPos = new int[6];
+        Vector2[] waterbottPosition = new Vector2[7];
+        int[] waterPos = new int[7];
 
         //cloud
         Texture2D cloud;
@@ -115,7 +115,7 @@ namespace Project_game1
 
         //police man
         Texture2D police_man;
-        Vector2 policePos = new Vector2(5200, 467);
+        Vector2 policePos = new Vector2();
         
         public Game1()
         {
@@ -189,7 +189,7 @@ namespace Project_game1
             currentHeart = barHeartTexture.Width - 5;
 
             barStaminaTexture = Content.Load<Texture2D>("HP_stamina");
-            currentStamina = barStaminaTexture.Width - 5;
+            //currentStamina = barStaminaTexture.Width - 5;
 
             police_man = Content.Load<Texture2D>("police_man");
 
@@ -209,52 +209,6 @@ namespace Project_game1
                 waterbottPosition[i].Y = 450;
             }
             */
-
-            waterbottPosition[0].X = 900;
-            waterbottPosition[0].Y = 430;
-
-            waterbottPosition[1].X = 2000;
-            waterbottPosition[1].Y = 480;
-
-            waterbottPosition[2].X = 3000;
-            waterbottPosition[2].Y = 480;
-
-            waterbottPosition[3].X = 3900;
-            waterbottPosition[3].Y = 430;
-
-            waterbottPosition[4].X = 4600;
-            waterbottPosition[4].Y = 480;
-
-            waterbottPosition[5].X = 5000;
-            waterbottPosition[5].Y = 480;
-
-            syringePosition[0].X = 700;
-            syringePosition[0].Y = 430;
-
-            syringePosition[1].X = 1800;
-            syringePosition[1].Y = 480;
-
-            syringePosition[2].X = 2900;
-            syringePosition[2].Y = 480;
-
-            syringePosition[3].X = 3900;
-            syringePosition[3].Y = 480;
-
-            evidencePosition[0].X = 1200;
-            evidencePosition[0].Y = 430;
-
-            evidencePosition[1].X = 2200;
-            evidencePosition[1].Y = 480;
-
-            evidencePosition[2].X = 3200;
-            evidencePosition[2].Y = 440;
-
-            evidencePosition[3].X = 4200;
-            evidencePosition[3].Y = 460;
-
-            evidencePosition[4].X = 5200;
-            evidencePosition[4].Y = 430;
-
 
             //keyPosition.X = 3800;
             //keyPosition.Y = 480;
@@ -283,6 +237,64 @@ namespace Project_game1
             //    docterTimer = 0;
             //}
 
+            ResetObjectPosition();
+        }
+
+        void ResetObjectPosition()
+        {
+            waterbottPosition[0].X = 900;
+            waterbottPosition[0].Y = 430;
+
+            waterbottPosition[1].X = 1900;
+            waterbottPosition[1].Y = 480;
+
+            waterbottPosition[2].X = 2700;
+            waterbottPosition[2].Y = 480;
+
+            waterbottPosition[3].X = 3400;
+            waterbottPosition[3].Y = 430;
+
+            waterbottPosition[4].X = 3900;
+            waterbottPosition[4].Y = 480;
+
+            waterbottPosition[5].X = 4500;
+            waterbottPosition[5].Y = 480;
+
+            waterbottPosition[6].X = 5500;
+            waterbottPosition[6].Y = 480;
+
+            syringePosition[0].X = 700;
+            syringePosition[0].Y = 430;
+
+            syringePosition[1].X = 1300;
+            syringePosition[1].Y = 480;
+
+            syringePosition[2].X = 2300;
+            syringePosition[2].Y = 480;
+
+            syringePosition[3].X = 3000;
+            syringePosition[3].Y = 480;
+
+            syringePosition[4].X = 4900;
+            syringePosition[4].Y = 480;
+
+            evidencePosition[0].X = 1200;
+            evidencePosition[0].Y = 430;
+
+            evidencePosition[1].X = 2200;
+            evidencePosition[1].Y = 480;
+
+            evidencePosition[2].X = 3200;
+            evidencePosition[2].Y = 430;
+
+            evidencePosition[3].X = 4200;
+            evidencePosition[3].Y = 480;
+
+            evidencePosition[4].X = 5200;
+            evidencePosition[4].Y = 430;
+
+            policePos.X = 5800;
+            policePos.Y = 467;
         }
 
         protected override void Update(GameTime gameTime)
@@ -308,19 +320,18 @@ namespace Project_game1
 
             else if (isGameOver == true)
             {
-                UpdateGameOver(gameTime);
+                UpdateGameOver();
             }
 
             else if (isGameWin == true)
             {
-                UpdateGameWin(gameTime);
+                UpdateGameWin();
             }
 
             else if (isDead == true)
             {
                 UpdateyourDead();
             }
-
 
             base.Update(gameTime);
         }
@@ -407,7 +418,7 @@ namespace Project_game1
             else if (isSlide)
             {
                 isJumping = false;
-                //isGrounded = true;
+                isGrounded = true;
             }
 
             //////////////////////////////// Y
@@ -460,15 +471,24 @@ namespace Project_game1
             //}
 
             currentHeart -= 0.3f;
-            currentStamina = 0;
-            
+            if (currentStamina > 0)
+            {
+                currentStamina -= 0.5f;
+            }
 
             System.Console.WriteLine("Player Pos (x, y)" + playerPos);
             System.Console.WriteLine("Camera Player Pos (x, Y)" + (playerPos - cameraPos));
 
             Rectangle playerRectangle = new Rectangle((int)playerPos.X, (int)playerPos.Y, 24, 24);
 
-            for (int i = 0; i < 4; i++)
+            Rectangle policeRectangle = new Rectangle((int)policePos.X, (int)policePos.Y, police_man.Width, police_man.Height);
+            if (playerRectangle.Intersects(policeRectangle) == true && evidences == 5)
+            {
+                isGameWin = true;
+                isGameplay = false;
+            }
+
+            for (int i = 0; i < syringePosition.Length; i++)
             {
                 Rectangle blockRectangle = new Rectangle((int)syringePosition[i].X, (int)syringePosition[i].Y, syringe.Width, syringe.Height);
 
@@ -484,8 +504,9 @@ namespace Project_game1
                     currentCountdownspeed = countdownSpeed;
                     playerSpeed = 5;
 
-                    currentStamina += 100;
-                    
+                    //currentStamina += 100;
+                    currentStamina += (barStaminaTexture.Width / 2) - 5;
+
                     //syringePos[i] = rand.Next(1);
 
                 }
@@ -510,8 +531,10 @@ namespace Project_game1
             }
 
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < waterbottPosition.Length; i++)
             {
+                waterbottPosition[i].Y += (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds));
+
                 Rectangle blockRectangle = new Rectangle((int)waterbottPosition[i].X, (int)waterbottPosition[i].Y, waterbottle.Width, waterbottle.Height);
 
                 if (playerRectangle.Intersects(blockRectangle) == true)
@@ -534,7 +557,7 @@ namespace Project_game1
             }
 
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < evidencePosition.Length; i++)
             {
                 Rectangle blockRectangle = new Rectangle((int)evidencePosition[i].X, (int)evidencePosition[i].Y, evidence.Width, evidence.Height);
 
@@ -553,10 +576,9 @@ namespace Project_game1
                     personHit = false;
                 }
 
-
             }
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < cloudPos.Length; i++)
             {
                 cloudPos[i].X = cloudPos[i].X + speed[i];
                 if (cloudPos[i].X > graphics.GraphicsDevice.Viewport.Width)
@@ -604,7 +626,7 @@ namespace Project_game1
             }
         }
 
-        private void UpdateGameOver(GameTime gameTime)
+        private void UpdateGameOver()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) && isGameOver == true)
             {
@@ -614,7 +636,7 @@ namespace Project_game1
 
         }
 
-        private void UpdateGameWin(GameTime gameTime)
+        private void UpdateGameWin()
         {
             
         }
@@ -717,7 +739,8 @@ namespace Project_game1
             str2 = "Press LeftAlt to Pause Game";
             spriteBatch.DrawString(font, str2, new Vector2(5, 25), Color.White);
 
-            spriteBatch.Draw(police_man, policePos, Color.White);
+            ////
+            spriteBatch.Draw(police_man, policePos - cameraPos, Color.White);
         }
 
         private void DrawTitle()
@@ -759,11 +782,16 @@ namespace Project_game1
             isJumping = false;            
             isGameOver = false;
             isDead = false;
-            
+
+            playerPos = new Vector2(0, 467);
+            cameraPos = Vector2.Zero;
+
             evidences = 0;
             
             currentHeart = barHeartTexture.Width - 5;
             currentStamina = barStaminaTexture.Width - 5;
+
+            ResetObjectPosition();
             
         }
     }
