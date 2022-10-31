@@ -21,10 +21,19 @@ namespace Project_game1
         Texture2D GameOver;
         bool isGameOver;
 
+        //scenes dead
+        Texture2D yourDead;
+        bool isDead;
+
         //scenes Pause
-        Texture2D Pause;
+        Texture2D gamePause;
         bool isGamePause;
 
+        //scenes win
+        Texture2D gameWin;
+        bool isGameWin;
+
+        //background
         Texture2D bg2;
         Texture2D bg4;
         Vector2 bgPos = Vector2.Zero;
@@ -39,7 +48,7 @@ namespace Project_game1
         Vector2 playerPos = new Vector2(0, 467);
         Vector2 scroll_factor = new Vector2(1.0f, 1);
 
-        float _countDownJump = 0.5f;
+        float _countDownJump = 1;
         float _currentTimeJump = 0;
 
         float countDownSlide = 0.5f;
@@ -59,10 +68,21 @@ namespace Project_game1
         float currentCountdownspeed;
         float playerSpeed = 2;
 
+        //HP
+        Texture2D barHeartTexture;
+        //Vector2 barPos = new Vector2();
+        float currentHeart = 10;
+        float countdownHeart = 0.5f;
+
+        //stamina
+        Texture2D barStaminaTexture;
+        float currentStamina = 10;
+        float countdownStamina = 0.5f;
+
         //syringe
         Texture2D syringe;
-        Vector2[] syringePosition = new Vector2[3];
-        int[] syringePos = new int[3];
+        Vector2[] syringePosition = new Vector2[4];
+        int[] syringePos = new int[4];
 
         //water
         Texture2D waterbottle;
@@ -77,6 +97,7 @@ namespace Project_game1
 
         Random r = new Random();
  
+        //evidences
         Texture2D evidence;
         Vector2[] evidencePosition = new Vector2[5];
         int[] eviPos = new int[5];
@@ -84,17 +105,17 @@ namespace Project_game1
 
         SpriteFont font;
 
+        //ghost
         //AnimatedTexture ghost;
         //int ghostTimer = 0;
 
+        //docter
         //AnimatedTexture docter;
         //int docterTimer = 0;
-        
-        Texture2D barTexture;
-        Vector2 barPos = new Vector2();
-        int currentHeart;
 
-
+        //police man
+        Texture2D police_man;
+        Vector2 policePos = new Vector2(5200, 467);
         
         public Game1()
         {
@@ -115,8 +136,7 @@ namespace Project_game1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            RestartGame();
-
+            
             base.Initialize();
         }
 
@@ -135,11 +155,17 @@ namespace Project_game1
             GameOver = Content.Load<Texture2D>("GameOver");
             isGameOver = false;
 
-            Pause = Content.Load<Texture2D>("Pause");
+            yourDead = Content.Load<Texture2D>("Your_dead");
+            isDead = false;
+
+            gamePause = Content.Load<Texture2D>("Pause");
             isGamePause = false;
 
+            gameWin = Content.Load<Texture2D>("You_win");
+            isGameWin = false;
+
             player.Load(Content, "player_walk2", 6, 2, 24);
-            playerJump.Load(Content, "player_jump", 5, 1, 55);
+            playerJump.Load(Content, "player_jump", 5, 1, 6);
             playerSlide.Load(Content, "player_slide", 4, 1, 24);
 
             syringe = Content.Load<Texture2D>("syringe");
@@ -159,8 +185,13 @@ namespace Project_game1
 
             evidence = Content.Load<Texture2D>("evidence2");
 
-            barTexture = Content.Load<Texture2D>("HP_stamina");
-            currentHeart = barTexture.Width - 5;
+            barHeartTexture = Content.Load<Texture2D>("HP_stamina");
+            currentHeart = barHeartTexture.Width - 5;
+
+            barStaminaTexture = Content.Load<Texture2D>("HP_stamina");
+            currentStamina = barStaminaTexture.Width - 5;
+
+            police_man = Content.Load<Texture2D>("police_man");
 
 
             // TODO: use this.Content to load your game content here
@@ -206,6 +237,9 @@ namespace Project_game1
             syringePosition[2].X = 2900;
             syringePosition[2].Y = 480;
 
+            syringePosition[3].X = 3900;
+            syringePosition[3].Y = 480;
+
             evidencePosition[0].X = 1200;
             evidencePosition[0].Y = 430;
 
@@ -220,6 +254,7 @@ namespace Project_game1
 
             evidencePosition[4].X = 5200;
             evidencePosition[4].Y = 430;
+
 
             //keyPosition.X = 3800;
             //keyPosition.Y = 480;
@@ -248,7 +283,6 @@ namespace Project_game1
             //    docterTimer = 0;
             //}
 
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -274,7 +308,17 @@ namespace Project_game1
 
             else if (isGameOver == true)
             {
-                UpdateGameOver();
+                UpdateGameOver(gameTime);
+            }
+
+            else if (isGameWin == true)
+            {
+                UpdateGameWin(gameTime);
+            }
+
+            else if (isDead == true)
+            {
+                UpdateyourDead();
             }
 
 
@@ -294,21 +338,30 @@ namespace Project_game1
                 DrawGameplay();
             }
 
-            if (isTitle == true)
+            else if (isTitle == true)
             {
                 DrawTitle();
             }
 
-            if (isGamePause == true)
+            else if (isGamePause == true)
             {
                 DrawGamePause();
             }
 
-            if (isGameOver == true)
+            else if (isGameOver == true)
             {
                 DrawGameOver();
             }
 
+            else if (isGameWin == true)
+            {
+                DrawGameWin();
+            }
+
+            else if (isDead == true)
+            {
+                DrawyourDead();
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -339,7 +392,6 @@ namespace Project_game1
                 player.Pause(0, 0);
             }
 
-
             if (isJumping == false)
             {
                 isGrounded = true;
@@ -358,19 +410,12 @@ namespace Project_game1
                 //isGrounded = true;
             }
 
-            //if (isJumping)
-            //{
-            //    jumpSpeed = -10;
-            //    force -= 5;
-            //    isGrounded = false;
-
-            //}
-
             //////////////////////////////// Y
             if (isJumping)
             {
                 playerSlide.Pause();
                 player.Pause();
+                playerJump.Play();
                 playerPos = new Vector2(playerPos.X, 430);
                 _currentTimeJump -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (_currentTimeJump < 0)
@@ -381,6 +426,7 @@ namespace Project_game1
             {
                 player.Pause();
                 playerJump.Pause();
+                playerSlide.Play();
                 playerPos = new Vector2(playerPos.X, 497);
                 currentTimeSlide -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (currentTimeSlide < 0)
@@ -413,14 +459,16 @@ namespace Project_game1
             //    RestartGame();
             //}
 
-
+            currentHeart -= 0.3f;
+            currentStamina = 0;
+            
 
             System.Console.WriteLine("Player Pos (x, y)" + playerPos);
             System.Console.WriteLine("Camera Player Pos (x, Y)" + (playerPos - cameraPos));
 
             Rectangle playerRectangle = new Rectangle((int)playerPos.X, (int)playerPos.Y, 24, 24);
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 Rectangle blockRectangle = new Rectangle((int)syringePosition[i].X, (int)syringePosition[i].Y, syringe.Width, syringe.Height);
 
@@ -435,6 +483,9 @@ namespace Project_game1
                     speedUp = true;
                     currentCountdownspeed = countdownSpeed;
                     playerSpeed = 5;
+
+                    currentStamina += 100;
+                    
                     //syringePos[i] = rand.Next(1);
 
                 }
@@ -472,6 +523,8 @@ namespace Project_game1
                     waterbottPosition[i].X = -50;
                     waterbottPosition[i].Y = 500;
 
+                    currentHeart += 100;
+
                     //waterPos[i] = rand.Next(1);
                 }
                 else if (playerRectangle.Intersects(blockRectangle) == false)
@@ -503,7 +556,6 @@ namespace Project_game1
 
             }
 
-
             for (int i = 0; i < 2; i++)
             {
                 cloudPos[i].X = cloudPos[i].X + speed[i];
@@ -517,13 +569,20 @@ namespace Project_game1
 
             }
 
-            //if (isGameOver)
-            //{
-            //    //string str;
-            //    //str = "Game Over";
+            if (currentHeart <= 0)
+            {
+                isDead = true;
+                isGameOver = false;
+                isGameplay = false;
+                isGamePause = false;
+                isTitle = false;
+            }
 
-            //}
-
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt) == true)
+            {
+                isGameplay = false;
+                isGamePause = true;
+            }
 
         }
 
@@ -531,25 +590,38 @@ namespace Project_game1
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) == true)
             {
-                isTitle = false;
+                isTitle = false;              
                 isGameplay = true;
             }
         }
 
         private void UpdateGamePause()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt) == true)
-            {
-                isGameplay = false;
-                isTitle = false;
-                isGameOver = false;
-                isGamePause = true;
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) == true)
+            {                                
+                isGameplay = true;
+                isGamePause = false;
             }
         }
 
-        private void UpdateGameOver()
+        private void UpdateGameOver(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) && isGameOver == true)
+            {
+                //playerPos -= new Vector2(2, 0);
+                RestartGame();
+            }
+
+        }
+
+        private void UpdateGameWin(GameTime gameTime)
+        {
+            
+        }
+
+        private void UpdateyourDead()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && isDead == true)
             {
                 //playerPos -= new Vector2(2, 0);
                 RestartGame();
@@ -562,6 +634,7 @@ namespace Project_game1
 
             //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor, Color.White);
             spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor, Color.White);
+            
             //spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
             spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 2, 0), Color.White);
             //spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
@@ -606,15 +679,26 @@ namespace Project_game1
                 spriteBatch.Draw(cloud, cloudPos[i], null, Color.White, 0, Vector2.Zero, scaleCloud[i], 0, 0);
             }
 
-            spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barTexture.Width / 1, 5, barTexture.Width, 44), new Rectangle(0, 0, barTexture.Width - 4, 59), Color.White);
-            if (currentHeart < barTexture.Width / 10 * 3)
+            spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1, 5, barHeartTexture.Width, 44), new Rectangle(0, 0, barHeartTexture.Width - 4, 59), Color.White);
+            if (currentHeart < barHeartTexture.Width / 10 * 3)
             {
-                spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barTexture.Width / 1, 5, currentHeart, 42), new Rectangle(0, 58, barTexture.Width - 10, 60), Color.DarkRed);
+                spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1, 5, (int)currentHeart, 42), new Rectangle(0, 58, barHeartTexture.Width - 10, 60), Color.DarkRed);
             }
 
             else
             {
-                spriteBatch.Draw(barTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barTexture.Width / 1, 5, currentHeart, 42), new Rectangle(0, 58, barTexture.Width - 10, 60), Color.Green);
+                spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1, 5, (int)currentHeart, 42), new Rectangle(0, 58, barHeartTexture.Width - 10, 60), Color.Green);
+            }
+
+            spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1, 50, barStaminaTexture.Width, 44), new Rectangle(0, 0, barStaminaTexture.Width - 4, 59), Color.White);
+            if (currentStamina < barStaminaTexture.Width / 10 * 3)
+            {
+                spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1, 50, (int)currentStamina, 42), new Rectangle(0, 58, barStaminaTexture.Width - 10, 60), Color.DarkBlue);
+            }
+
+            else
+            {
+                spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1, 50, (int)currentStamina, 42), new Rectangle(0, 58, barStaminaTexture.Width - 10, 60), Color.Blue);
             }
 
             //spriteBatch.Draw(key, keyPosition - cameraPos, Color.White);
@@ -630,9 +714,10 @@ namespace Project_game1
             spriteBatch.DrawString(font, str, new Vector2(5, 5), Color.White);
 
             string str2;
-            str2 = "Press LeftAlt to Pause";
+            str2 = "Press LeftAlt to Pause Game";
             spriteBatch.DrawString(font, str2, new Vector2(5, 25), Color.White);
 
+            spriteBatch.Draw(police_man, policePos, Color.White);
         }
 
         private void DrawTitle()
@@ -647,7 +732,7 @@ namespace Project_game1
 
         private void DrawGamePause()
         {
-            spriteBatch.Draw(Pause, Vector2.Zero, Color.White);
+            spriteBatch.Draw(gamePause, Vector2.Zero, Color.White);
         }
 
         private void DrawGameOver()
@@ -655,12 +740,30 @@ namespace Project_game1
             spriteBatch.Draw(GameOver, Vector2.Zero, Color.White);
         }
 
+        private void DrawGameWin()
+        {
+            spriteBatch.Draw(gameWin, Vector2.Zero, Color.White);
+        }
+
+        private void DrawyourDead()
+        {
+            spriteBatch.Draw(yourDead, Vector2.Zero, Color.White);
+        }
+
         private void RestartGame()
         {
-            isJumping = false;
             isGrounded = true;
+            isTitle = true;
+
+            isGameplay = false;
+            isJumping = false;            
             isGameOver = false;
-            //evidences = 0;
+            isDead = false;
+            
+            evidences = 0;
+            
+            currentHeart = barHeartTexture.Width - 5;
+            currentStamina = barStaminaTexture.Width - 5;
             
         }
     }
