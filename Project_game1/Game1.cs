@@ -14,7 +14,7 @@ namespace Project_game1
         Texture2D title;
         bool isTitle;
         
-        //Texture2D gameplay;
+        Texture2D gameplay;
         bool isGameplay;
 
         //scenes gameover
@@ -149,8 +149,8 @@ namespace Project_game1
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //gameplay = Content.Load<Texture2D>("BG5");
-            bg2 = Content.Load<Texture2D>("BG6");
+            gameplay = Content.Load<Texture2D>("bg_00");
+            bg2 = Content.Load<Texture2D>("bg_000");
             bg4 = Content.Load<Texture2D>("BG7");
 
             title = Content.Load<Texture2D>("Title3");
@@ -711,14 +711,14 @@ namespace Project_game1
 
         private void DrawGameplay()
         {
-            //spriteBatch.Draw(gameplay, Vector2.Zero, Color.White);
+            spriteBatch.Draw(gameplay, Vector2.Zero, Color.White);
 
             //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor, Color.White);
             spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor, Color.White);
             
-            //spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
+            spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
             spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 2, 0), Color.White);
-            //spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
+            spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
             spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 4, 0), Color.White);
             spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 5, 0), Color.White);
             spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 6, 0), Color.White);
@@ -787,7 +787,7 @@ namespace Project_game1
                 spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1, 50, (int)currentStamina, 42), new Rectangle(0, 58, barStaminaTexture.Width - 10, 60), Color.Blue);
             }
 
-            spriteBatch.Draw(heart, new Vector2(50, 5), Color.White);
+            //spriteBatch.Draw(heart, new Vector2(50, 5), Color.White);
 
             //spriteBatch.Draw(key, keyPosition - cameraPos, Color.White);
 
