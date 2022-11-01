@@ -14,8 +14,6 @@ namespace Project_game1
         Texture2D title;
         bool isTitle;
         
-        Texture2D gameplay;
-        bool isGameplay;
 
         //scenes gameover
         Texture2D GameOver;
@@ -34,10 +32,15 @@ namespace Project_game1
         bool isGameWin;
 
         //background
+        Texture2D gameplay;
+        bool isGameplay;
+
         Texture2D bg2;
+        Texture2D bg3;
         Texture2D bg4;
         Vector2 bgPos = Vector2.Zero;
         Vector2 bgPos2 = Vector2.Zero;
+        Vector2 bgPos3 = Vector2.Zero;
         Vector2 bgPos4 = Vector2.Zero;
         
         //player
@@ -149,24 +152,25 @@ namespace Project_game1
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gameplay = Content.Load<Texture2D>("bg_00");
-            bg2 = Content.Load<Texture2D>("bg_000");
-            bg4 = Content.Load<Texture2D>("BG7");
+            gameplay = Content.Load<Texture2D>("bg_hospital");
+            bg2 = Content.Load<Texture2D>("bg_01_fix");
+            bg3 = Content.Load<Texture2D>("bg_02_fix");
+            bg4 = Content.Load<Texture2D>("bg_police");
 
-            title = Content.Load<Texture2D>("Title3");
+            title = Content.Load<Texture2D>("Title_fix");
             isTitle = true;
             isGameplay = false;
 
-            GameOver = Content.Load<Texture2D>("GameOver");
+            GameOver = Content.Load<Texture2D>("GameOver_fix");
             isGameOver = false;
 
-            yourDead = Content.Load<Texture2D>("Your_dead");
+            yourDead = Content.Load<Texture2D>("your_dead_fix");
             isDead = false;
 
-            gamePause = Content.Load<Texture2D>("Pause");
+            gamePause = Content.Load<Texture2D>("Pause_fix");
             isGamePause = false;
 
-            gameWin = Content.Load<Texture2D>("You_win_fix");
+            gameWin = Content.Load<Texture2D>("You_win_fix2");
             isGameWin = false;
 
             player.Load(Content, "player_walk2", 6, 2, 24);
@@ -711,19 +715,17 @@ namespace Project_game1
 
         private void DrawGameplay()
         {
-            spriteBatch.Draw(gameplay, Vector2.Zero, Color.White);
+            //spriteBatch.Draw(gameplay, Vector2.Zero, Color.White);
 
-            //spriteBatch.Draw(bg, (bgPos - cameraPos) * scroll_factor, Color.White);
-            spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor, Color.White);
-            
-            spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
+            spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor, Color.White);
+            spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor, Color.White);            
+            spriteBatch.Draw(bg3, (bgPos3 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
             spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 2, 0), Color.White);
-            spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
+            spriteBatch.Draw(bg3, (bgPos3 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
             spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 4, 0), Color.White);
-            spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 5, 0), Color.White);
+            spriteBatch.Draw(bg3, (bgPos3 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 5, 0), Color.White);
             spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 6, 0), Color.White);
             spriteBatch.Draw(bg4, (bgPos4 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 7, 0), Color.White);
-
             
             if (isJumping)
             {
