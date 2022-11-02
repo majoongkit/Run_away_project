@@ -14,7 +14,6 @@ namespace Project_game1
         Texture2D title;
         bool isTitle;
         
-
         //scenes gameover
         Texture2D GameOver;
         bool isGameOver;
@@ -118,8 +117,12 @@ namespace Project_game1
         int[] ghostPos = new int[7];
 
         //docter
-        //AnimatedTexture docter;
-        //int docterTimer = 0;
+        AnimatedTexture docter;
+        float docDistance = 200;
+        float currentCownDoc = 3;
+        bool isUntouch = false;
+        float currentunTouchcowndown = 3;
+        float currentCountdownspeedDoc;
 
         //police man
         Texture2D police_man;
@@ -131,6 +134,8 @@ namespace Project_game1
             player = new AnimatedTexture(Vector2.Zero, 0, 1.0f, 1.0f);
             playerJump = new AnimatedTexture(Vector2.Zero, 0, 1.0f, 1.0f);
             playerSlide = new AnimatedTexture(Vector2.Zero, 0, 1.0f, 1.0f);
+
+            docter = new AnimatedTexture(Vector2.Zero, 0, 1.0f, 1.0f);
 
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
@@ -176,6 +181,8 @@ namespace Project_game1
             player.Load(Content, "player_walk2", 6, 2, 24);
             playerJump.Load(Content, "player_jump", 5, 1, 6);
             playerSlide.Load(Content, "player_slide", 4, 1, 24);
+
+            docter.Load(Content, "player_walk2", 6, 2, 24);
 
             syringe = Content.Load<Texture2D>("syringe");
             waterbottle = Content.Load<Texture2D>("waterbottle");
@@ -303,29 +310,29 @@ namespace Project_game1
             evidencePosition[4].X = 5200;
             evidencePosition[4].Y = 430;
 
-            policePos.X = 6100;
-            policePos.Y = 470;
+            policePos.X = 6200;
+            policePos.Y = 473;
 
             ghostPosition[0].X = 600;
-            ghostPosition[0].Y = 430;
+            ghostPosition[0].Y = 450;
 
             ghostPosition[1].X = 1900;
             ghostPosition[1].Y = 430;
 
             ghostPosition[2].X = 2900;
-            ghostPosition[2].Y = 430;
+            ghostPosition[2].Y = 450;
 
             ghostPosition[3].X = 3500;
             ghostPosition[3].Y = 430;
 
             ghostPosition[4].X = 4600;
-            ghostPosition[4].Y = 430;
+            ghostPosition[4].Y = 450;
 
             ghostPosition[5].X = 5600;
             ghostPosition[5].Y = 430;
 
             ghostPosition[6].X = 6000;
-            ghostPosition[6].Y = 430;
+            ghostPosition[6].Y = 450;
 
             //heartPos.X = 50;
             //heartPos.Y = 5;
@@ -419,11 +426,15 @@ namespace Project_game1
             playerJump.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
             playerSlide.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
 
+            docter.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
+
             if (playerPos.X < graphics.GraphicsDevice.Viewport.Width * 8 - 60)
             {
                 if (playerPos.X - cameraPos.X >= 300 && cameraPos.X < graphics.GraphicsDevice.Viewport.Width * 8)
                 {
                     cameraPos += new Vector2(playerSpeed, 0);
+
+                    
                 }
 
                 player.Play();
@@ -435,6 +446,19 @@ namespace Project_game1
             else
             {
                 player.Pause(0, 0);
+
+                    if (evidences == 5)
+                    {
+                        isGameWin = true;
+                        isGameplay = false;
+                    }
+                    else
+                    {
+                        isGameOver = true;
+                        isGameWin = false;
+                        isGameplay = false;
+                    }
+
             }
 
             if (isJumping == false)
@@ -510,16 +534,26 @@ namespace Project_game1
                 currentStamina -= 0.5f;
             }
 
+
             System.Console.WriteLine("Player Pos (x, y)" + playerPos);
             System.Console.WriteLine("Camera Player Pos (x, Y)" + (playerPos - cameraPos));
 
             Rectangle playerRectangle = new Rectangle((int)playerPos.X, (int)playerPos.Y, 24, 24);
 
             Rectangle policeRectangle = new Rectangle((int)policePos.X, (int)policePos.Y, police_man.Width, police_man.Height);
-            if (playerRectangle.Intersects(policeRectangle) == true && evidences == 5)
+            if (playerRectangle.Intersects(policeRectangle) == true)
             {
-                isGameWin = true;
-                isGameplay = false;
+                if (evidences == 5)
+                {
+                    isGameWin = true;
+                    isGameplay = false;
+                }
+                else
+                {
+                    isGameOver = true;
+                    isGameWin = false;
+                    isGameplay = false;
+                }
             }
 
             for (int i = 0; i < syringePosition.Length; i++)
@@ -540,6 +574,7 @@ namespace Project_game1
 
                     //currentStamina += 100;
                     currentStamina += (barStaminaTexture.Width / 2) - 5;
+                    docDistance += 50;
 
                     //syringePos[i] = rand.Next(1);
 
@@ -562,6 +597,20 @@ namespace Project_game1
                     speedUp = false;
                 }
 
+            }
+
+            if (currentunTouchcowndown <= 0 && isUntouch == false)
+            {
+                isUntouch = true;
+
+
+                docDistance = 300;
+
+
+            }
+            else
+            {
+                currentunTouchcowndown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
 
@@ -606,6 +655,9 @@ namespace Project_game1
                     ghostPosition[i].Y = 500;
 
                     currentHeart -= 50;
+                    docDistance -= 100;
+                    currentunTouchcowndown = 3;
+                    isUntouch = false;
 
                     //waterPos[i] = rand.Next(1);
                 }
@@ -718,7 +770,7 @@ namespace Project_game1
             //spriteBatch.Draw(gameplay, Vector2.Zero, Color.White);
 
             spriteBatch.Draw(gameplay, (bgPos - cameraPos) * scroll_factor, Color.White);
-            spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor, Color.White);            
+            //spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor, Color.White);            
             spriteBatch.Draw(bg3, (bgPos3 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width, 0), Color.White);
             spriteBatch.Draw(bg2, (bgPos2 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 2, 0), Color.White);
             spriteBatch.Draw(bg3, (bgPos3 - cameraPos) * scroll_factor + new Vector2(graphics.GraphicsDevice.Viewport.Width * 3, 0), Color.White);
@@ -739,6 +791,8 @@ namespace Project_game1
             {
                 player.DrawFrame(spriteBatch, (playerPos - cameraPos));
             }
+
+            docter.DrawFrame(spriteBatch, ((new Vector2(playerPos.X, 467) - cameraPos - new Vector2(docDistance, 0))));
 
             
 
@@ -767,26 +821,29 @@ namespace Project_game1
                 spriteBatch.Draw(cloud, cloudPos[i], null, Color.White, 0, Vector2.Zero, scaleCloud[i], 0, 0);
             }
 
-            spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1, 5, barHeartTexture.Width, 44), new Rectangle(0, 0, barHeartTexture.Width - 4, 59), Color.White);
+            spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1, 5, barHeartTexture.Width, barHeartTexture.Height), new Rectangle(0, 0, barHeartTexture.Width, barHeartTexture.Height), Color.White);
+            
             if (currentHeart < barHeartTexture.Width / 10 * 3)
             {
-                spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1, 5, (int)currentHeart, 42), new Rectangle(0, 58, barHeartTexture.Width - 10, 60), Color.DarkRed);
+                spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1 + 5, 10, (int)currentHeart, 45), new Rectangle(5, 5, barHeartTexture.Width - 10, 45), Color.DarkRed);
             }
 
             else
             {
-                spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1, 5, (int)currentHeart, 42), new Rectangle(0, 58, barHeartTexture.Width - 10, 60), Color.Green);
+                spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1 + 5, 10, (int)currentHeart, 45), new Rectangle(5, 5, barHeartTexture.Width - 10, 45), Color.Green);
             }
 
-            spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1, 50, barStaminaTexture.Width, 44), new Rectangle(0, 0, barStaminaTexture.Width - 4, 59), Color.White);
+
+            spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1, 50, barStaminaTexture.Width, barStaminaTexture.Height), new Rectangle(0, 0, barStaminaTexture.Width, barStaminaTexture.Height), Color.White);
+            
             if (currentStamina < barStaminaTexture.Width / 10 * 3)
             {
-                spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1, 50, (int)currentStamina, 42), new Rectangle(0, 58, barStaminaTexture.Width - 10, 60), Color.DarkBlue);
+                spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1 + 5, 55, (int)currentStamina, 45), new Rectangle(5, 5, barStaminaTexture.Width - 10, 45), Color.DarkBlue);
             }
 
             else
             {
-                spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1, 50, (int)currentStamina, 42), new Rectangle(0, 58, barStaminaTexture.Width - 10, 60), Color.Blue);
+                spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1 + 5, 55, (int)currentStamina, 45), new Rectangle(5, 5, barStaminaTexture.Width - 10, 45), Color.Blue);
             }
 
             //spriteBatch.Draw(heart, new Vector2(50, 5), Color.White);
@@ -854,6 +911,15 @@ namespace Project_game1
             currentHeart = barHeartTexture.Width - 5;
             currentStamina = 0;
             //currentStamina = barStaminaTexture.Width - 5;
+
+            bgPos = Vector2.Zero;
+            bgPos2 = Vector2.Zero;
+            bgPos3 = Vector2.Zero;
+            bgPos4 = Vector2.Zero;
+
+            docDistance = 200;
+            isUntouch = false;
+            currentunTouchcowndown = 3;
 
             ResetObjectPosition();
             
