@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
+
+
 
 namespace Project_game1
 {
@@ -10,6 +13,9 @@ namespace Project_game1
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        //sound effect
+        List<SoundEffect> soundEffects;
+
         //mainmenu
         Texture2D title;
         bool isTitle;
@@ -119,9 +125,9 @@ namespace Project_game1
         //docter
         AnimatedTexture docter;
         float docDistance = 200;
-        float currentCownDoc = 3;
+        float currentCownDoc = 2;
         bool isUntouch = false;
-        float currentunTouchcowndown = 3;
+        float currentunTouchcowndown = 2;
         float currentCountdownspeedDoc;
 
         //police man
@@ -143,7 +149,9 @@ namespace Project_game1
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            jumpSpeed = -20; 
+            jumpSpeed = -20;
+
+            soundEffects = new List<SoundEffect>();
         }
 
         protected override void Initialize()
@@ -156,6 +164,16 @@ namespace Project_game1
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            soundEffects.Add(Content.Load<SoundEffect>("start_sound"));
+            soundEffects[0].Play();
+
+            var instance = soundEffects[0].CreateInstance();
+            instance.IsLooped = true;
+            instance.Play();
+            
+            soundEffects.Add(Content.Load<SoundEffect>("jump_sound"));
+
 
             gameplay = Content.Load<Texture2D>("bg_hospital");
             bg2 = Content.Load<Texture2D>("bg_01_fix");
@@ -351,7 +369,7 @@ namespace Project_game1
 
             else if (isTitle == true)
             {
-                UpdateTitle();
+                UpdateTitle();                
             }
 
             else if (isGamePause == true)
@@ -421,6 +439,12 @@ namespace Project_game1
 
         private void UpdateGameplay(GameTime gameTime)
         {
+            soundEffects[0].Play();
+
+            var instance = soundEffects[0].CreateInstance();
+            instance.IsLooped = false;
+            instance.Pause();
+
             //player
             player.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
             playerJump.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
@@ -512,6 +536,8 @@ namespace Project_game1
                 isJumping = true;
                 isGrounded = false;
                 _currentTimeJump = _countDownJump;
+
+                soundEffects[1].CreateInstance().Play();
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -602,11 +628,7 @@ namespace Project_game1
             if (currentunTouchcowndown <= 0 && isUntouch == false)
             {
                 isUntouch = true;
-
-
                 docDistance = 300;
-
-
             }
             else
             {
@@ -656,7 +678,7 @@ namespace Project_game1
 
                     currentHeart -= 50;
                     docDistance -= 100;
-                    currentunTouchcowndown = 3;
+                    currentunTouchcowndown = 2;
                     isUntouch = false;
 
                     //waterPos[i] = rand.Next(1);
@@ -726,6 +748,11 @@ namespace Project_game1
                 isTitle = false;              
                 isGameplay = true;
             }
+            soundEffects[0].Play();
+
+            var instance = soundEffects[0].CreateInstance();
+            instance.IsLooped = true;
+            instance.Play();
         }
 
         private void UpdateGamePause()

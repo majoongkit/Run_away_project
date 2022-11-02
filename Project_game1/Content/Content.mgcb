@@ -224,6 +224,12 @@
 /processorParam:TextureFormat=Color
 /build:Clound_3_fix.png
 
+#begin collect_water.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:collect_water.mp3
+
 #begin evidence1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -260,6 +266,12 @@
 /processorParam:TextureFormat=Color
 /build:Example.png
 
+#begin footsteps.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:footsteps.mp3
+
 #begin GameOver.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -283,6 +295,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:GameOver_fix.png
+
+#begin gameover_sound.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:gameover_sound.mp3
+
+#begin gameover_sound2.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:gameover_sound2.mp3
 
 #begin ghost.png
 /importer:TextureImporter
@@ -343,6 +367,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:HP_stamina2.png
+
+#begin jump_sound.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:jump_sound.mp3
 
 #begin Pause.png
 /importer:TextureImporter
@@ -428,6 +458,12 @@
 /processorParam:TextureFormat=Color
 /build:police_man2.png
 
+#begin speed_up.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:speed_up.mp3
+
 #begin stamina.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -439,6 +475,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:stamina.png
+
+#begin start_sound.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:start_sound.mp3
 
 #begin syringe.png
 /importer:TextureImporter
