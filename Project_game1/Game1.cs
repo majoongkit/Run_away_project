@@ -16,22 +16,28 @@ namespace Project_game1
         private SpriteBatch spriteBatch;
         //sound effect
         Song start;
-        bool isPlayStart = false;
+        bool isPlayStart; /*= false;*/
 
         Song footsteps;
-        bool isPlayFootsteps = false;
+        bool isPlayFootsteps; /*= false;*/
 
         Song gameover;
-        bool isPlayGameOver = false;
+        bool isPlayGameOver; /*= false;*/
 
         Song win;
-        bool isPlayWin = false;
+        bool isPlayWin; /*= false;*/
 
         Song collect;
-        bool isPlayCollect = false;
+        bool isPlayCollect; /*= false;*/
 
         Song jump;
-        bool isPlayJump = false;
+        bool isPlayJump; /*= false;*/
+
+        Song SpeedUp;
+        bool isPlaySpeedUp; /*= false;*/
+
+        Song crash;
+        bool isPlayCrash;
 
         List<SoundEffect> soundEffects;
 
@@ -143,10 +149,10 @@ namespace Project_game1
 
         //docter
         AnimatedTexture docter;
-        float docDistance = 200;
-        float currentCownDoc = 2;
+        float docDistance = 380;
+        float currentCountDoc = 2;
         bool isUntouch = false;
-        float currentunTouchcowndown = 2;
+        float currentunTouchcountdown = 2;
         float currentCountdownspeedDoc;
 
         //police man
@@ -190,6 +196,8 @@ namespace Project_game1
             this.win = Content.Load<Song>("win");
             this.collect = Content.Load<Song>("collect_water");
             this.jump = Content.Load<Song>("jump_sound");
+            this.SpeedUp = Content.Load<Song>("speed_up");
+            this.crash = Content.Load<Song>("crash_obstacle");
 
             MediaPlayer.Play(start);
             MediaPlayer.IsRepeating = true;
@@ -254,7 +262,6 @@ namespace Project_game1
             police_man = Content.Load<Texture2D>("police_man2");
             ghost = Content.Load<Texture2D>("ghost");
 
-
             // TODO: use this.Content to load your game content here
 
             //for (int i = 0; i < 5; i++)
@@ -271,33 +278,7 @@ namespace Project_game1
             }
             */
 
-            //keyPosition.X = 3800;
-            //keyPosition.Y = 480;
-
             font = Content.Load<SpriteFont>("ArialFont");
-
-            //if (ghost.Visible == false)
-            //{
-            //    ghostTimer += 1;
-            //}
-
-            //if (ghostTimer == 200 && ghost.Visible == false)
-            //{
-            //    ghost.Visible = true;
-            //    ghostTimer = 0;
-            //}
-
-            //if (docter.Visible == false)
-            //{
-            //    docterTimer += 1;
-            //}
-
-            //if (docterTimer == 200 && ghost.Visible == false)
-            //{
-            //    docter.Visible = true;
-            //    docterTimer = 0;
-            //}
-
             ResetObjectPosition();
         }
 
@@ -358,25 +339,25 @@ namespace Project_game1
             policePos.Y = 473;
 
             ghostPosition[0].X = 600;
-            ghostPosition[0].Y = 450;
+            ghostPosition[0].Y = 460;
 
             ghostPosition[1].X = 1900;
             ghostPosition[1].Y = 430;
 
             ghostPosition[2].X = 2900;
-            ghostPosition[2].Y = 450;
+            ghostPosition[2].Y = 460;
 
             ghostPosition[3].X = 3500;
             ghostPosition[3].Y = 430;
 
             ghostPosition[4].X = 4600;
-            ghostPosition[4].Y = 450;
+            ghostPosition[4].Y = 460;
 
             ghostPosition[5].X = 5600;
             ghostPosition[5].Y = 430;
 
             ghostPosition[6].X = 6000;
-            ghostPosition[6].Y = 450;
+            ghostPosition[6].Y = 460;
 
             //heartPos.X = 50;
             //heartPos.Y = 5;
@@ -390,6 +371,8 @@ namespace Project_game1
             MediaPlayer.Play(gameover);
             MediaPlayer.Play(collect);
             MediaPlayer.Play(jump);
+            MediaPlayer.Play(SpeedUp);
+            MediaPlayer.Play(crash);
         }
 
         protected override void Update(GameTime gameTime)
@@ -498,6 +481,9 @@ namespace Project_game1
                 playerSlide.Pause();
                 playerPos += new Vector2(playerSpeed, 0);
 
+                MediaPlayer.Play(footsteps);
+                isPlayFootsteps = true;
+
             }
             else
             {
@@ -572,6 +558,7 @@ namespace Project_game1
                 MediaPlayer.Play(jump);
                 isPlayJump = true;
                 
+                
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -608,8 +595,7 @@ namespace Project_game1
                 if (evidences == 5)
                 {
                     MediaPlayer.Play(win);
-                    isPlayWin = true;
-                    isPlayGameOver = false;
+                    isPlayWin = true;                    
                     //MediaPlayer.IsRepeating = true;
 
                     isGameWin = true;
@@ -619,8 +605,7 @@ namespace Project_game1
                 {
                     MediaPlayer.Play(gameover);
                     isPlayGameOver = true;
-                    isGameWin = false;
-
+                    
                     isGameOver = true;
                     isGameWin = false;
                     isGameplay = false;
@@ -633,11 +618,14 @@ namespace Project_game1
 
                 if (playerRectangle.Intersects(blockRectangle) == true)
                 {
+                    MediaPlayer.Play(SpeedUp);
+                    isPlaySpeedUp = true;
+                    
                     personHit = true;
 
                     //syringePosition[i].X = rand.Next(graphics.GraphicsDevice.Viewport.Width - syringe.Width / 1);
                     syringePosition[i].X = -50;
-                    syringePosition[i].Y = 500;
+                    syringePosition[i].Y = 700;
 
                     speedUp = true;
                     currentCountdownspeed = countdownSpeed;
@@ -660,7 +648,7 @@ namespace Project_game1
             {
                 if (currentCountdownspeed > 0)
                 {
-                    currentCountdownspeed -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    currentCountdownspeed -= (float)gameTime.ElapsedGameTime.TotalSeconds;                    
                 }
                 else
                 {
@@ -670,14 +658,14 @@ namespace Project_game1
 
             }
 
-            if (currentunTouchcowndown <= 0 && isUntouch == false)
+            if (currentunTouchcountdown <= 0 && isUntouch == false)
             {
                 isUntouch = true;
-                docDistance = 300;
+                docDistance = 350;
             }
             else
             {
-                currentunTouchcowndown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                currentunTouchcountdown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
 
@@ -690,14 +678,13 @@ namespace Project_game1
                 {
                     MediaPlayer.Play(collect);
                     isPlayCollect = true;
-                    isPlayFootsteps = false;
-
+                    
                     personHit = true;
 
                     //int x = ((int)cameraPos.X);
                     //waterbottPosition[i].X = rand.Next(x + graphics.GraphicsDevice.Viewport.Width - waterbottle.Width / 1);
                     waterbottPosition[i].X = -50;
-                    waterbottPosition[i].Y = 500;
+                    waterbottPosition[i].Y = 700;
 
                     currentHeart += 100;
 
@@ -717,16 +704,19 @@ namespace Project_game1
 
                 if (playerRectangle.Intersects(blockRectangle) == true)
                 {
+                    MediaPlayer.Play(crash);
+                    isPlayCrash = true;
+
                     personHit = true;
 
                     //int x = ((int)cameraPos.X);
                     //waterbottPosition[i].X = rand.Next(x + graphics.GraphicsDevice.Viewport.Width - waterbottle.Width / 1);
                     ghostPosition[i].X = -50;
-                    ghostPosition[i].Y = 500;
+                    ghostPosition[i].Y = 700;
 
                     currentHeart -= 50;
                     docDistance -= 100;
-                    currentunTouchcowndown = 2;
+                    currentunTouchcountdown = 2;
                     isUntouch = false;
 
                     //waterPos[i] = rand.Next(1);
@@ -744,10 +734,13 @@ namespace Project_game1
 
                 if (playerRectangle.Intersects(blockRectangle) == true)
                 {
+                    MediaPlayer.Play(collect);
+                    isPlayCollect = true;
+                   
                     personHit = true;
 
                     evidencePosition[i].X = -50;
-                    evidencePosition[i].Y = 500;
+                    evidencePosition[i].Y = 700;
 
                     evidences++;
 
@@ -803,8 +796,7 @@ namespace Project_game1
                 isTitle = false;              
                 isGameplay = true;
 
-                MediaPlayer.Play(footsteps);
-                isPlayStart = false;
+                MediaPlayer.Play(footsteps);               
                 isPlayFootsteps = true;
             }
 
@@ -816,6 +808,9 @@ namespace Project_game1
             {                                
                 isGameplay = true;
                 isGamePause = false;
+
+                MediaPlayer.Play(footsteps);                
+                isPlayFootsteps = true;
             }
         }
 
@@ -999,9 +994,9 @@ namespace Project_game1
             bgPos3 = Vector2.Zero;
             bgPos4 = Vector2.Zero;
 
-            docDistance = 200;
+            docDistance = 400;
             isUntouch = false;
-            currentunTouchcowndown = 3;
+            currentunTouchcountdown = 2;
 
             ResetObjectPosition();
             
