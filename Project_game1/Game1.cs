@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 
 
@@ -14,6 +15,24 @@ namespace Project_game1
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         //sound effect
+        Song start;
+        bool isPlayStart = false;
+
+        Song footsteps;
+        bool isPlayFootsteps = false;
+
+        Song gameover;
+        bool isPlayGameOver = false;
+
+        Song win;
+        bool isPlayWin = false;
+
+        Song collect;
+        bool isPlayCollect = false;
+
+        Song jump;
+        bool isPlayJump = false;
+
         List<SoundEffect> soundEffects;
 
         //mainmenu
@@ -165,15 +184,22 @@ namespace Project_game1
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            soundEffects.Add(Content.Load<SoundEffect>("start_sound"));
-            soundEffects[0].Play();
+            this.start = Content.Load<Song>("start_sound");
+            this.footsteps = Content.Load<Song>("footsteps");
+            this.gameover = Content.Load<Song>("gameover_sound2");
+            this.win = Content.Load<Song>("win");
+            this.collect = Content.Load<Song>("collect_water");
+            this.jump = Content.Load<Song>("jump_sound");
 
-            var instance = soundEffects[0].CreateInstance();
-            instance.IsLooped = true;
-            instance.Play();
-            
-            soundEffects.Add(Content.Load<SoundEffect>("jump_sound"));
+            MediaPlayer.Play(start);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
 
+            soundEffects.Add(Content.Load<SoundEffect>("slide_sound"));
+            //soundEffects[0].Play();
+            //var instance = soundEffects[0].CreateInstance();
+            //instance.IsLooped = true;
+            //instance.Play();
 
             gameplay = Content.Load<Texture2D>("bg_hospital");
             bg2 = Content.Load<Texture2D>("bg_01_fix");
@@ -356,6 +382,16 @@ namespace Project_game1
             //heartPos.Y = 5;
         }
 
+        void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
+        {
+            MediaPlayer.Volume -= 0.1f;
+            MediaPlayer.Play(start);
+            MediaPlayer.Play(footsteps);
+            MediaPlayer.Play(gameover);
+            MediaPlayer.Play(collect);
+            MediaPlayer.Play(jump);
+        }
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -364,17 +400,18 @@ namespace Project_game1
             // TODO: Add your update logic here
             if (isGameplay == true)
             {
-                UpdateGameplay(gameTime);
+                UpdateGameplay(gameTime);               
             }
 
             else if (isTitle == true)
             {
-                UpdateTitle();                
+                UpdateTitle();             
             }
 
             else if (isGamePause == true)
             {
                 UpdateGamePause();
+ 
             }
 
             else if (isGameOver == true)
@@ -439,11 +476,8 @@ namespace Project_game1
 
         private void UpdateGameplay(GameTime gameTime)
         {
-            soundEffects[0].Play();
-
-            var instance = soundEffects[0].CreateInstance();
-            instance.IsLooped = false;
-            instance.Pause();
+            //MediaPlayer.Play(footsteps);
+            //isPlayFootsteps = true;
 
             //player
             player.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
@@ -457,8 +491,6 @@ namespace Project_game1
                 if (playerPos.X - cameraPos.X >= 300 && cameraPos.X < graphics.GraphicsDevice.Viewport.Width * 8)
                 {
                     cameraPos += new Vector2(playerSpeed, 0);
-
-                    
                 }
 
                 player.Play();
@@ -471,17 +503,17 @@ namespace Project_game1
             {
                 player.Pause(0, 0);
 
-                    if (evidences == 5)
-                    {
-                        isGameWin = true;
-                        isGameplay = false;
-                    }
-                    else
-                    {
-                        isGameOver = true;
-                        isGameWin = false;
-                        isGameplay = false;
-                    }
+                //if (evidences == 5)
+                //{
+                //    isGameWin = true;
+                //    isGameplay = false;
+                //}
+                //else
+                //{
+                //    isGameOver = true;
+                //    isGameWin = false;
+                //    isGameplay = false;
+                //}
 
             }
 
@@ -537,7 +569,9 @@ namespace Project_game1
                 isGrounded = false;
                 _currentTimeJump = _countDownJump;
 
-                soundEffects[1].CreateInstance().Play();
+                MediaPlayer.Play(jump);
+                isPlayJump = true;
+                
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -546,6 +580,11 @@ namespace Project_game1
                 isJumping = false;
                 isGrounded = false;
                 currentTimeSlide = countDownSlide;
+
+                soundEffects[0].Play();
+                var instance = soundEffects[0].CreateInstance();
+                instance.IsLooped = false;
+                instance.Play();
             }
 
             //if (Keyboard.GetState().IsKeyDown(Keys.Enter) && isGameOver == true)
@@ -556,10 +595,7 @@ namespace Project_game1
 
             currentHeart -= 0.3f;
             if (currentStamina > 0)
-            {
                 currentStamina -= 0.5f;
-            }
-
 
             System.Console.WriteLine("Player Pos (x, y)" + playerPos);
             System.Console.WriteLine("Camera Player Pos (x, Y)" + (playerPos - cameraPos));
@@ -571,11 +607,20 @@ namespace Project_game1
             {
                 if (evidences == 5)
                 {
+                    MediaPlayer.Play(win);
+                    isPlayWin = true;
+                    isPlayGameOver = false;
+                    //MediaPlayer.IsRepeating = true;
+
                     isGameWin = true;
                     isGameplay = false;
                 }
                 else
                 {
+                    MediaPlayer.Play(gameover);
+                    isPlayGameOver = true;
+                    isGameWin = false;
+
                     isGameOver = true;
                     isGameWin = false;
                     isGameplay = false;
@@ -639,11 +684,14 @@ namespace Project_game1
             for (int i = 0; i < waterbottPosition.Length; i++)
             {
                 //waterbottPosition[i].Y += (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds));
-
                 Rectangle blockRectangle = new Rectangle((int)waterbottPosition[i].X, (int)waterbottPosition[i].Y, waterbottle.Width, waterbottle.Height);
 
                 if (playerRectangle.Intersects(blockRectangle) == true)
                 {
+                    MediaPlayer.Play(collect);
+                    isPlayCollect = true;
+                    isPlayFootsteps = false;
+
                     personHit = true;
 
                     //int x = ((int)cameraPos.X);
@@ -726,6 +774,9 @@ namespace Project_game1
 
             if (currentHeart <= 0)
             {
+                MediaPlayer.Play(gameover);
+                isPlayGameOver = true;
+
                 isDead = true;
                 isGameOver = false;
                 isGameplay = false;
@@ -737,6 +788,10 @@ namespace Project_game1
             {
                 isGameplay = false;
                 isGamePause = true;
+
+                MediaPlayer.Play(start);
+                isPlayStart = true;
+                isPlayFootsteps = false;
             }
 
         }
@@ -747,12 +802,12 @@ namespace Project_game1
             {
                 isTitle = false;              
                 isGameplay = true;
-            }
-            soundEffects[0].Play();
 
-            var instance = soundEffects[0].CreateInstance();
-            instance.IsLooped = true;
-            instance.Play();
+                MediaPlayer.Play(footsteps);
+                isPlayStart = false;
+                isPlayFootsteps = true;
+            }
+
         }
 
         private void UpdateGamePause()
