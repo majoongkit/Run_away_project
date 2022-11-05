@@ -32,30 +32,6 @@
 /processorParam:TextureFormat=Compressed
 /build:ArialFont.spritefont
 
-#begin bg_00.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:bg_00.png
-
-#begin bg_000.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:bg_000.png
-
 #begin bg_01.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -79,6 +55,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:bg_01_fix.png
+
+#begin bg_01_fix2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:bg_01_fix2.png
 
 #begin bg_02.png
 /importer:TextureImporter
@@ -116,6 +104,30 @@
 /processorParam:TextureFormat=Color
 /build:bg_02_fix2.png
 
+#begin bg_02_fix3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:bg_02_fix3.png
+
+#begin bg_02_fix4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:bg_02_fix4.png
+
 #begin bg_hospital.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -140,7 +152,7 @@
 /processorParam:TextureFormat=Color
 /build:bg_police.png
 
-#begin BG6.png
+#begin bg_police2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -150,19 +162,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BG6.png
-
-#begin BG7.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:BG7.png
+/build:bg_police2.png
 
 #begin car.png
 /importer:TextureImporter
@@ -199,6 +199,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:car_fix2.png
+
+#begin car_fix3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:car_fix3.png
 
 #begin car2.png
 /importer:TextureImporter
@@ -367,6 +379,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:docter2.png
+
+#begin docter3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:docter3.png
 
 #begin evidence1.png
 /importer:TextureImporter

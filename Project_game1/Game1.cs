@@ -84,7 +84,7 @@ namespace Project_game1
         //HP
         Texture2D barHeartTexture;
         Texture2D heart;
-        //Vector2 heartPos = new Vector2(50, 5);
+        Vector2 heartPos = new Vector2();
         //Vector2 barPos = new Vector2();
         float currentHeart = 10;
         //float countdownHeart = 0.5f;
@@ -92,7 +92,7 @@ namespace Project_game1
         //stamina
         Texture2D barStaminaTexture;
         Texture2D stamina;
-        //Vector2 staminaPos = new Vector2(50, 50);
+        Vector2 staminaPos = new Vector2();
         float currentStamina = 0;
         //float countdownStamina = 0.5f;
 
@@ -124,8 +124,8 @@ namespace Project_game1
 
         //ghost
         Texture2D ghost;
-        Vector2[] ghostPosition = new Vector2[6];
-        int[] ghostPos = new int[6];
+        Vector2[] ghostPosition = new Vector2[5];
+        int[] ghostPos = new int[5];
 
         Texture2D ghost2;
         Vector2[] ghost2Position = new Vector2[4];
@@ -136,9 +136,9 @@ namespace Project_game1
         Vector2[] carPosition = new Vector2[4];
         int[] carPos = new int[4];
 
-        Texture2D car2;
-        Vector2[] car2Position = new Vector2[4];
-        int[] car2Pos = new int[4];
+        //Texture2D car2;
+        //Vector2[] car2Position = new Vector2[4];
+        //int[] car2Pos = new int[4];
 
         //เศษตึก
         Texture2D debris_bulid;
@@ -147,7 +147,7 @@ namespace Project_game1
 
         //docter
         AnimatedTexture docter;
-        float docDistance = 300;
+        float docDistance = 290;
         float currentCountDoc = 2;
         bool isUntouch = false;
         float currentunTouchcountdown = 2;
@@ -209,9 +209,9 @@ namespace Project_game1
             //instance.Play();
 
             gameplay = Content.Load<Texture2D>("bg_hospital");
-            bg2 = Content.Load<Texture2D>("bg_01_fix");
-            bg3 = Content.Load<Texture2D>("bg_02_fix2");
-            bg4 = Content.Load<Texture2D>("bg_police");
+            bg2 = Content.Load<Texture2D>("bg_01_fix2");
+            bg3 = Content.Load<Texture2D>("bg_02_fix4");
+            bg4 = Content.Load<Texture2D>("bg_police2");
 
             title = Content.Load<Texture2D>("Title_fix");
             isTitle = true;
@@ -233,7 +233,7 @@ namespace Project_game1
             playerJump.Load(Content, "player_jump", 5, 1, 6);
             playerSlide.Load(Content, "player_slide", 4, 1, 24);
 
-            docter.Load(Content, "docter2", 6, 1, 24);
+            docter.Load(Content, "docter3", 6, 1, 24);
 
             syringe = Content.Load<Texture2D>("syringe");
             waterbottle = Content.Load<Texture2D>("waterbottle");
@@ -252,18 +252,20 @@ namespace Project_game1
 
             evidence = Content.Load<Texture2D>("evidence2");
 
+            heart = Content.Load<Texture2D>("heart");
             barHeartTexture = Content.Load<Texture2D>("HP_stamina2");
             currentHeart = barHeartTexture.Width - 5;
 
+            stamina = Content.Load<Texture2D>("stamina");
             barStaminaTexture = Content.Load<Texture2D>("HP_stamina2");
             //currentStamina = barStaminaTexture.Width - 5;
 
             police_man = Content.Load<Texture2D>("police_man5");
             ghost = Content.Load<Texture2D>("ghost");
             ghost2 = Content.Load<Texture2D>("ghost2");
-            car = Content.Load<Texture2D>("car_fix2");
-            car2 = Content.Load<Texture2D>("car2_fix");
-            debris_bulid = Content.Load<Texture2D>("debris_building");
+            car = Content.Load<Texture2D>("car_fix3");
+            //car2 = Content.Load<Texture2D>("car2_fix");
+            //debris_bulid = Content.Load<Texture2D>("debris_building");
 
             // TODO: use this.Content to load your game content here
 
@@ -287,13 +289,13 @@ namespace Project_game1
 
         void ResetObjectPosition()
         {
-            waterbottPosition[0].X = 800;
-            waterbottPosition[0].Y = 440;
+            waterbottPosition[0].X = 700;
+            waterbottPosition[0].Y = 460;
 
             waterbottPosition[1].X = 2000;
             waterbottPosition[1].Y = 440;
 
-            waterbottPosition[2].X = 3000;
+            waterbottPosition[2].X = 3020;
             waterbottPosition[2].Y = 440;
 
             waterbottPosition[3].X = 4000;
@@ -310,118 +312,115 @@ namespace Project_game1
             
 
             syringePosition[0].X = 1200;
-            syringePosition[0].Y = 430;
+            syringePosition[0].Y = 450;
 
-            syringePosition[1].X = 2600;
+            syringePosition[1].X = 2400;
             syringePosition[1].Y = 480;
 
             syringePosition[2].X = 3400;
-            syringePosition[2].Y = 480;
+            syringePosition[2].Y = 450;
 
             syringePosition[3].X = 4400;
-            syringePosition[3].Y = 480;
+            syringePosition[3].Y = 430;
 
             syringePosition[4].X = 5400;
-            syringePosition[4].Y = 480;
+            syringePosition[4].Y = 450;
 
             syringePosition[5].X = 6400;
             syringePosition[5].Y = 480;
   
 
-            evidencePosition[0].X = 3200;
+            evidencePosition[0].X = 2900;
             evidencePosition[0].Y = 430;
 
-            evidencePosition[1].X = 5200;
+            evidencePosition[1].X = 4250;
             evidencePosition[1].Y = 480;
 
-            evidencePosition[2].X = 6200;
+            evidencePosition[2].X = 5350;
             evidencePosition[2].Y = 430;
 
-            evidencePosition[3].X = 7200;
+            evidencePosition[3].X = 7050;
             evidencePosition[3].Y = 480;
 
-            evidencePosition[4].X = 7500;
+            evidencePosition[4].X = 7520;
             evidencePosition[4].Y = 430;
 
-            policePos.X = 7800;
+            policePos.X = 7720;
             policePos.Y = 457;
 
+            
             ghostPosition[0].X = 500;
             ghostPosition[0].Y = 460;
 
-            ghostPosition[1].X = 1300;
-            ghostPosition[1].Y = 450;
+            ghostPosition[1].X = 1500;
+            ghostPosition[1].Y = 460;
 
-            ghostPosition[2].X = 3500;
-            ghostPosition[2].Y = 450;
+            ghostPosition[2].X = 3050;
+            ghostPosition[2].Y = 460;
 
-            ghostPosition[3].X = 5300;
-            ghostPosition[3].Y = 450;
+            ghostPosition[3].X = 5210;
+            ghostPosition[3].Y = 460;
 
-            ghostPosition[4].X = 6300;
-            ghostPosition[4].Y = 450;
+            ghostPosition[4].X = 6150;
+            ghostPosition[4].Y = 460;
 
-            ghostPosition[5].X = 7000;
-            ghostPosition[5].Y = 450;
-
-
-            ghost2Position[0].X = 2900;
+           
+            ghost2Position[0].X = 2750;
             ghost2Position[0].Y = 430;
 
-            ghost2Position[1].X = 4500;
+            ghost2Position[1].X = 4750;
             ghost2Position[1].Y = 430;
 
-            ghost2Position[2].X = 6300;
+            ghost2Position[2].X = 6600;
             ghost2Position[2].Y = 430;
 
-            ghost2Position[3].X = 7300;
+            ghost2Position[3].X = 7250;
             ghost2Position[3].Y = 430;
             
 
             carPosition[0].X = 950;
-            carPosition[0].Y = 470;
+            carPosition[0].Y = 460;
 
-            carPosition[1].X = 3000;
-            carPosition[1].Y = 470;
+            carPosition[1].X = 3250;
+            carPosition[1].Y = 460;
 
             carPosition[2].X = 4400;
-            carPosition[2].Y = 470;
+            carPosition[2].Y = 460;
 
             carPosition[3].X = 5000;
-            carPosition[3].Y = 470;
+            carPosition[3].Y = 460;
 
-            car2Position[0].X = 1800;
-            car2Position[0].Y = 467;
 
-            car2Position[1].X = 3800;
-            car2Position[1].Y = 467;
+            //debrisBuildPosition[0].X = 1800;
+            //debrisBuildPosition[0].Y = 467;
 
-            car2Position[2].X = 5800;
-            car2Position[2].Y = 467;
+            //debrisBuildPosition[1].X = 3890;
+            //debrisBuildPosition[1].Y = 467;
 
-            car2Position[3].X = 6700;
-            car2Position[3].Y = 467;
+            //debrisBuildPosition[2].X = 5830;
+            //debrisBuildPosition[2].Y = 467;
 
-            debrisBuildPosition[0].X = 2200;
-            debrisBuildPosition[0].Y = 467;
+            //debrisBuildPosition[3].X = 6800;
+            //debrisBuildPosition[3].Y = 467;
 
-            debrisBuildPosition[1].X = 3700;
-            debrisBuildPosition[1].Y = 467;
+            //debrisBuildPosition[0].X = 2200;
+            //debrisBuildPosition[0].Y = 467;
 
-            debrisBuildPosition[2].X = 4700;
-            debrisBuildPosition[2].Y = 467;
+            //debrisBuildPosition[1].X = 3700;
+            //debrisBuildPosition[1].Y = 467;
 
-            debrisBuildPosition[3].X = 5400;
-            debrisBuildPosition[3].Y = 467;
+            //debrisBuildPosition[2].X = 4700;
+            //debrisBuildPosition[2].Y = 467;
 
-            debrisBuildPosition[4].X = 6400;
-            debrisBuildPosition[4].Y = 467;
+            //debrisBuildPosition[3].X = 5400;
+            //debrisBuildPosition[3].Y = 467;
+
+            //debrisBuildPosition[4].X = 6400;
+            //debrisBuildPosition[4].Y = 467;
 
             //car2Position[4].X = 5000;
             //car2Position[4].Y = 467;
 
-            //heartPos.X = 50;
-            //heartPos.Y = 5;
         }
 
         void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
@@ -600,7 +599,7 @@ namespace Project_game1
             }
 
             //keyboard 
-            if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftControl) && isJumping == false)
             {
                 isJumping = true;
                 isGrounded = false;
@@ -609,7 +608,7 @@ namespace Project_game1
                 soundEffects[6].CreateInstance().Play();
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && isSlide == false)
             {
                 isSlide = true;
                 isJumping = false;
@@ -709,7 +708,7 @@ namespace Project_game1
             if (currentunTouchcountdown <= 0 && isUntouch == false)
             {
                 isUntouch = true;
-                docDistance = 300;
+                docDistance = 290;
             }
             else
             {
@@ -727,13 +726,14 @@ namespace Project_game1
                     soundEffects[4].CreateInstance().Play();
 
                     personHit = true;
-
+                    
                     //int x = ((int)cameraPos.X);
                     //waterbottPosition[i].X = rand.Next(x + graphics.GraphicsDevice.Viewport.Width - waterbottle.Width / 1);
                     waterbottPosition[i].X = -50;
                     waterbottPosition[i].Y = 700;
 
                     currentHeart += 100;
+                    docDistance += 80;
 
                     //waterPos[i] = rand.Next(1);
                 }
@@ -822,55 +822,55 @@ namespace Project_game1
                 }
             }
 
-            for (int i = 0; i < car2Position.Length; i++)
-            {
-                Rectangle blockRectangle = new Rectangle((int)car2Position[i].X, (int)car2Position[i].Y, car2.Width, car2.Height);
+            //for (int i = 0; i < car2Position.Length; i++)
+            //{
+            //    Rectangle blockRectangle = new Rectangle((int)car2Position[i].X, (int)car2Position[i].Y, car2.Width, car2.Height);
 
-                if (playerRectangle.Intersects(blockRectangle) == true)
-                {
-                    soundEffects[2].CreateInstance().Play();
+            //    if (playerRectangle.Intersects(blockRectangle) == true)
+            //    {
+            //        soundEffects[2].CreateInstance().Play();
 
-                    personHit = true;
+            //        personHit = true;
 
-                    carPosition[i].X = -50;
-                    carPosition[i].Y = 700;
+            //        carPosition[i].X = -50;
+            //        carPosition[i].Y = 700;
 
-                    currentHeart -= 50;
-                    docDistance -= 100;
-                    currentunTouchcountdown = 2;
-                    isUntouch = false;
+            //        currentHeart -= 50;
+            //        docDistance -= 100;
+            //        currentunTouchcountdown = 2;
+            //        isUntouch = false;
 
-                }
-                else if (playerRectangle.Intersects(blockRectangle) == false)
-                {
-                    personHit = false;
-                }
-            }
+            //    }
+            //    else if (playerRectangle.Intersects(blockRectangle) == false)
+            //    {
+            //        personHit = false;
+            //    }
+            //}
 
-            for (int i = 0; i < debrisBuildPosition.Length; i++)
-            {
-                Rectangle blockRectangle = new Rectangle((int)debrisBuildPosition[i].X, (int)debrisBuildPosition[i].Y, debris_bulid.Width, debris_bulid.Height);
+            //for (int i = 0; i < debrisBuildPosition.Length; i++)
+            //{
+            //    Rectangle blockRectangle = new Rectangle((int)debrisBuildPosition[i].X, (int)debrisBuildPosition[i].Y, debris_bulid.Width, debris_bulid.Height);
 
-                if (playerRectangle.Intersects(blockRectangle) == true)
-                {
-                    soundEffects[2].CreateInstance().Play();
+            //    if (playerRectangle.Intersects(blockRectangle) == true)
+            //    {
+            //        soundEffects[2].CreateInstance().Play();
 
-                    personHit = true;
+            //        personHit = true;
 
-                    carPosition[i].X = -50;
-                    carPosition[i].Y = 700;
+            //        carPosition[i].X = -50;
+            //        carPosition[i].Y = 700;
 
-                    currentHeart -= 50;
-                    docDistance -= 100;
-                    currentunTouchcountdown = 2;
-                    isUntouch = false;
+            //        currentHeart -= 50;
+            //        docDistance -= 100;
+            //        currentunTouchcountdown = 2;
+            //        isUntouch = false;
 
-                }
-                else if (playerRectangle.Intersects(blockRectangle) == false)
-                {
-                    personHit = false;
-                }
-            }
+            //    }
+            //    else if (playerRectangle.Intersects(blockRectangle) == false)
+            //    {
+            //        personHit = false;
+            //    }
+            //}
 
 
             for (int i = 0; i < evidencePosition.Length; i++)
@@ -1013,7 +1013,7 @@ namespace Project_game1
                 player.DrawFrame(spriteBatch, (playerPos - cameraPos));
             }
 
-            docter.DrawFrame(spriteBatch, ((new Vector2(playerPos.X, 443) - cameraPos - new Vector2(docDistance, 0))));
+            docter.DrawFrame(spriteBatch, ((new Vector2(playerPos.X, 425) - cameraPos - new Vector2(docDistance, 0))));
 
 
             for (int i = 0; i < syringePosition.Length; i++)
@@ -1041,15 +1041,15 @@ namespace Project_game1
                 spriteBatch.Draw(car, carPosition[i] - cameraPos, new Rectangle(24 * carPos[i], 0, car.Width, car.Height), Color.White);
             }
 
-            for (int i = 0; i < car2Position.Length; i++)
-            {
-                spriteBatch.Draw(car2, car2Position[i] - cameraPos, new Rectangle(24 * car2Pos[i], 0, car2.Width, car2.Height), Color.White);
-            }
+            //for (int i = 0; i < car2Position.Length; i++)
+            //{
+            //    spriteBatch.Draw(car2, car2Position[i] - cameraPos, new Rectangle(24 * car2Pos[i], 0, car2.Width, car2.Height), Color.White);
+            //}
 
-            for (int i = 0; i < debrisBuildPosition.Length; i++)
-            {
-                spriteBatch.Draw(debris_bulid, debrisBuildPosition[i] - cameraPos, new Rectangle(24 * debrisBuildPos[i], 0, debris_bulid.Width, debris_bulid.Height), Color.White);
-            }
+            //for (int i = 0; i < debrisBuildPosition.Length; i++)
+            //{
+            //    spriteBatch.Draw(debris_bulid, debrisBuildPosition[i] - cameraPos, new Rectangle(24 * debrisBuildPos[i], 0, debris_bulid.Width, debris_bulid.Height), Color.White);
+            //}
 
             for (int i = 0; i < evidencePosition.Length; i++)
             {
@@ -1061,32 +1061,30 @@ namespace Project_game1
                 spriteBatch.Draw(cloud, cloudPos[i], null, Color.White, 0, Vector2.Zero, scaleCloud[i], 0, 0);
             }
 
-            spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1, 5, barHeartTexture.Width, barHeartTexture.Height), new Rectangle(0, 0, barHeartTexture.Width, barHeartTexture.Height), Color.White);
-            
+            //hp
+            spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1, 5, barHeartTexture.Width, barHeartTexture.Height), new Rectangle(0, 0, barHeartTexture.Width, barHeartTexture.Height), Color.White);            
             if (currentHeart < barHeartTexture.Width / 10 * 3)
             {
                 spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1 + 5, 10, (int)currentHeart, 45), new Rectangle(5, 5, barHeartTexture.Width - 10, 45), Color.DarkRed);
             }
-
             else
             {
                 spriteBatch.Draw(barHeartTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barHeartTexture.Width / 1 + 5, 10, (int)currentHeart, 45), new Rectangle(5, 5, barHeartTexture.Width - 10, 45), Color.Green);
             }
 
-
-            spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1, 50, barStaminaTexture.Width, barStaminaTexture.Height), new Rectangle(0, 0, barStaminaTexture.Width, barStaminaTexture.Height), Color.White);
-            
+            //stamina
+            spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1, 50, barStaminaTexture.Width, barStaminaTexture.Height), new Rectangle(0, 0, barStaminaTexture.Width, barStaminaTexture.Height), Color.White);            
             if (currentStamina < barStaminaTexture.Width / 10 * 3)
             {
-                spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1 + 5, 55, (int)currentStamina, 45), new Rectangle(5, 5, barStaminaTexture.Width - 10, 45), Color.DarkBlue);
+                spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1 + 5, 55, (int)currentStamina, 45), new Rectangle(5, 5, barStaminaTexture.Width - 10, 50), Color.DarkBlue);
             }
-
             else
             {
-                spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1 + 5, 55, (int)currentStamina, 45), new Rectangle(5, 5, barStaminaTexture.Width - 10, 45), Color.Blue);
+                spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1 + 5, 55, (int)currentStamina, 45), new Rectangle(5, 5, barStaminaTexture.Width - 10, 50), Color.DarkBlue);
             }
 
-            //spriteBatch.Draw(heart, new Vector2(50, 5), Color.White);
+            spriteBatch.Draw(heart, new Vector2(480, 0), Color.White);
+            spriteBatch.Draw(stamina, new Vector2(480, 50), Color.White);
 
             string str;
             str = "Evidence : " + evidences;
@@ -1154,9 +1152,12 @@ namespace Project_game1
             bgPos3 = Vector2.Zero;
             bgPos4 = Vector2.Zero;
 
-            docDistance = 300;
+            docDistance = 290;
             isUntouch = false;
             currentunTouchcountdown = 2;
+
+            MediaPlayer.Play(start);
+            isPlayStart = true;
 
             ResetObjectPosition();
             
