@@ -98,8 +98,8 @@ namespace Project_game1
 
         //syringe
         Texture2D syringe;
-        Vector2[] syringePosition = new Vector2[6];
-        int[] syringePos = new int[6];
+        Vector2[] syringePosition = new Vector2[7];
+        int[] syringePos = new int[7];
 
         //water
         Texture2D waterbottle;
@@ -133,8 +133,8 @@ namespace Project_game1
 
         //car
         Texture2D car;
-        Vector2[] carPosition = new Vector2[4];
-        int[] carPos = new int[4];
+        Vector2[] carPosition = new Vector2[5];
+        int[] carPos = new int[5];
 
         //Texture2D car2;
         //Vector2[] car2Position = new Vector2[4];
@@ -142,8 +142,8 @@ namespace Project_game1
 
         //ป้าย
         Texture2D labels;
-        Vector2[] labelsPosition = new Vector2[5];
-        int[] labelsPos = new int[5];
+        Vector2[] labelsPosition = new Vector2[6];
+        int[] labelsPos = new int[6];
 
         //docter
         AnimatedTexture docter;
@@ -291,16 +291,16 @@ namespace Project_game1
 
         void ResetObjectPosition()
         {
-            waterbottPosition[0].X = 700;
-            waterbottPosition[0].Y = 480;
+            waterbottPosition[0].X = 750;
+            waterbottPosition[0].Y = 430;
 
             waterbottPosition[1].X = 1900;
             waterbottPosition[1].Y = 480;
 
             waterbottPosition[2].X = 3020;
-            waterbottPosition[2].Y = 480;
+            waterbottPosition[2].Y = 430;
 
-            waterbottPosition[3].X = 4000;
+            waterbottPosition[3].X = 3950;
             waterbottPosition[3].Y = 480;
 
             waterbottPosition[4].X = 5000;
@@ -313,16 +313,16 @@ namespace Project_game1
             waterbottPosition[6].Y = 480;
             
 
-            syringePosition[0].X = 1100;
-            syringePosition[0].Y = 430;
+            syringePosition[0].X = 1050;
+            syringePosition[0].Y = 480;
 
-            syringePosition[1].X = 2450;
+            syringePosition[1].X = 2100;
             syringePosition[1].Y = 430;
 
-            syringePosition[2].X = 3400;
+            syringePosition[2].X = 3580;
             syringePosition[2].Y = 430;
 
-            syringePosition[3].X = 4400;
+            syringePosition[3].X = 4490;
             syringePosition[3].Y = 480;
 
             syringePosition[4].X = 5400;
@@ -330,12 +330,16 @@ namespace Project_game1
 
             syringePosition[5].X = 6400;
             syringePosition[5].Y = 430;
-  
 
-            evidencePosition[0].X = 2900;
+            syringePosition[6].X = 7200;
+            syringePosition[6].Y = 430;
+
+
+
+            evidencePosition[0].X = 2800;
             evidencePosition[0].Y = 430;
 
-            evidencePosition[1].X = 4250;
+            evidencePosition[1].X = 4280;
             evidencePosition[1].Y = 480;
 
             evidencePosition[2].X = 5350;
@@ -352,61 +356,67 @@ namespace Project_game1
 
             
             ghostPosition[0].X = 500;
-            ghostPosition[0].Y = 460;
+            ghostPosition[0].Y = 430;
 
-            ghostPosition[1].X = 1350;
-            ghostPosition[1].Y = 460;
+            ghostPosition[1].X = 1480;
+            ghostPosition[1].Y = 430;
 
             ghostPosition[2].X = 2200;
-            ghostPosition[2].Y = 460;
+            ghostPosition[2].Y = 430;
 
             ghostPosition[3].X = 4710;
-            ghostPosition[3].Y = 460;
+            ghostPosition[3].Y = 430;
 
             ghostPosition[4].X = 6050;
-            ghostPosition[4].Y = 460;
+            ghostPosition[4].Y = 430;
 
            
-            ghost2Position[0].X = 2650;
+            ghost2Position[0].X = 2640;
             ghost2Position[0].Y = 430;
 
-            ghost2Position[1].X = 3650;
+            ghost2Position[1].X = 3850;
             ghost2Position[1].Y = 430;
 
-            ghost2Position[2].X = 5550;
+            ghost2Position[2].X = 5450;
             ghost2Position[2].Y = 430;
 
             ghost2Position[3].X = 7350;
             ghost2Position[3].Y = 430;
             
 
-            carPosition[0].X = 900;
+            carPosition[0].X = 700;
             carPosition[0].Y = 460;
 
-            carPosition[1].X = 3250;
+            carPosition[1].X = 3010;
             carPosition[1].Y = 460;
 
-            carPosition[2].X = 4090;
+            carPosition[2].X = 3610;
             carPosition[2].Y = 460;
 
-            carPosition[3].X = 5920;
+            carPosition[3].X = 4100;
             carPosition[3].Y = 460;
 
+            carPosition[4].X = 5920;
+            carPosition[4].Y = 460;
 
-            labelsPosition[0].X = 1600;
+
+            labelsPosition[0].X = 1200;
             labelsPosition[0].Y = 405;
 
-            labelsPosition[1].X = 2700;
+            labelsPosition[1].X = 1710;
             labelsPosition[1].Y = 405;
 
-            labelsPosition[2].X = 4930;
+            labelsPosition[2].X = 3310;
             labelsPosition[2].Y = 405;
 
-            labelsPosition[3].X = 5800;
+            labelsPosition[3].X = 4930;
             labelsPosition[3].Y = 405;
 
-            labelsPosition[4].X = 6400;
+            labelsPosition[4].X = 5800;
             labelsPosition[4].Y = 405;
+
+            labelsPosition[5].X = 6480;
+            labelsPosition[5].Y = 405;
 
 
             //debrisBuildPosition[0].X = 2200;
