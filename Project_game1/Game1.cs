@@ -140,10 +140,10 @@ namespace Project_game1
         //Vector2[] car2Position = new Vector2[4];
         //int[] car2Pos = new int[4];
 
-        //เศษตึก
-        Texture2D debris_bulid;
-        Vector2[] debrisBuildPosition = new Vector2[5];
-        int[] debrisBuildPos = new int[5];
+        //ป้าย
+        Texture2D labels;
+        Vector2[] labelsPosition = new Vector2[5];
+        int[] labelsPos = new int[5];
 
         //docter
         AnimatedTexture docter;
@@ -154,7 +154,7 @@ namespace Project_game1
         float currentCountdownspeedDoc;
 
         //police man
-        Texture2D police_man;
+        AnimatedTexture police_man;
         Vector2 policePos = new Vector2();
 
         public Game1()
@@ -165,6 +165,7 @@ namespace Project_game1
             playerSlide = new AnimatedTexture(Vector2.Zero, 0, 1.0f, 1.0f);
 
             docter = new AnimatedTexture(Vector2.Zero, 0, 1.0f, 1.0f);
+            police_man = new AnimatedTexture(Vector2.Zero, 0, 1.0f, 1.0f);
 
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
@@ -234,6 +235,7 @@ namespace Project_game1
             playerSlide.Load(Content, "player_slide", 4, 1, 24);
 
             docter.Load(Content, "docter3", 6, 1, 24);
+            police_man.Load(Content, "police8", 2, 1, 2);
 
             syringe = Content.Load<Texture2D>("syringe");
             waterbottle = Content.Load<Texture2D>("waterbottle");
@@ -252,18 +254,18 @@ namespace Project_game1
 
             evidence = Content.Load<Texture2D>("evidence2");
 
-            heart = Content.Load<Texture2D>("heart");
+            heart = Content.Load<Texture2D>("heart2");
             barHeartTexture = Content.Load<Texture2D>("HP_stamina2");
             currentHeart = barHeartTexture.Width - 5;
 
-            stamina = Content.Load<Texture2D>("stamina");
+            stamina = Content.Load<Texture2D>("stamina2");
             barStaminaTexture = Content.Load<Texture2D>("HP_stamina2");
             //currentStamina = barStaminaTexture.Width - 5;
 
-            police_man = Content.Load<Texture2D>("police_man5");
             ghost = Content.Load<Texture2D>("ghost");
             ghost2 = Content.Load<Texture2D>("ghost2");
             car = Content.Load<Texture2D>("car_fix3");
+            labels = Content.Load<Texture2D>("labels2");
             //car2 = Content.Load<Texture2D>("car2_fix");
             //debris_bulid = Content.Load<Texture2D>("debris_building");
 
@@ -290,44 +292,44 @@ namespace Project_game1
         void ResetObjectPosition()
         {
             waterbottPosition[0].X = 700;
-            waterbottPosition[0].Y = 460;
+            waterbottPosition[0].Y = 480;
 
-            waterbottPosition[1].X = 2000;
-            waterbottPosition[1].Y = 440;
+            waterbottPosition[1].X = 1900;
+            waterbottPosition[1].Y = 480;
 
             waterbottPosition[2].X = 3020;
-            waterbottPosition[2].Y = 440;
+            waterbottPosition[2].Y = 480;
 
             waterbottPosition[3].X = 4000;
-            waterbottPosition[3].Y = 440;
+            waterbottPosition[3].Y = 480;
 
             waterbottPosition[4].X = 5000;
-            waterbottPosition[4].Y = 440;
+            waterbottPosition[4].Y = 480;
 
-            waterbottPosition[5].X = 6000;
-            waterbottPosition[5].Y = 440;
+            waterbottPosition[5].X = 6200;
+            waterbottPosition[5].Y = 480;
 
             waterbottPosition[6].X = 7000;
-            waterbottPosition[6].Y = 440;
+            waterbottPosition[6].Y = 480;
             
 
-            syringePosition[0].X = 1200;
-            syringePosition[0].Y = 450;
+            syringePosition[0].X = 1100;
+            syringePosition[0].Y = 430;
 
-            syringePosition[1].X = 2400;
-            syringePosition[1].Y = 480;
+            syringePosition[1].X = 2450;
+            syringePosition[1].Y = 430;
 
             syringePosition[2].X = 3400;
-            syringePosition[2].Y = 450;
+            syringePosition[2].Y = 430;
 
             syringePosition[3].X = 4400;
-            syringePosition[3].Y = 430;
+            syringePosition[3].Y = 480;
 
             syringePosition[4].X = 5400;
-            syringePosition[4].Y = 450;
+            syringePosition[4].Y = 480;
 
             syringePosition[5].X = 6400;
-            syringePosition[5].Y = 480;
+            syringePosition[5].Y = 430;
   
 
             evidencePosition[0].X = 2900;
@@ -337,71 +339,75 @@ namespace Project_game1
             evidencePosition[1].Y = 480;
 
             evidencePosition[2].X = 5350;
-            evidencePosition[2].Y = 430;
+            evidencePosition[2].Y = 480;
 
-            evidencePosition[3].X = 7050;
+            evidencePosition[3].X = 6800;
             evidencePosition[3].Y = 480;
 
             evidencePosition[4].X = 7520;
             evidencePosition[4].Y = 430;
 
             policePos.X = 7720;
-            policePos.Y = 457;
+            policePos.Y = 455;
 
             
             ghostPosition[0].X = 500;
             ghostPosition[0].Y = 460;
 
-            ghostPosition[1].X = 1500;
+            ghostPosition[1].X = 1350;
             ghostPosition[1].Y = 460;
 
-            ghostPosition[2].X = 3050;
+            ghostPosition[2].X = 2200;
             ghostPosition[2].Y = 460;
 
-            ghostPosition[3].X = 5210;
+            ghostPosition[3].X = 4710;
             ghostPosition[3].Y = 460;
 
-            ghostPosition[4].X = 6150;
+            ghostPosition[4].X = 6050;
             ghostPosition[4].Y = 460;
 
            
-            ghost2Position[0].X = 2750;
+            ghost2Position[0].X = 2650;
             ghost2Position[0].Y = 430;
 
-            ghost2Position[1].X = 4750;
+            ghost2Position[1].X = 3650;
             ghost2Position[1].Y = 430;
 
-            ghost2Position[2].X = 6600;
+            ghost2Position[2].X = 5550;
             ghost2Position[2].Y = 430;
 
-            ghost2Position[3].X = 7250;
+            ghost2Position[3].X = 7350;
             ghost2Position[3].Y = 430;
             
 
-            carPosition[0].X = 950;
+            carPosition[0].X = 900;
             carPosition[0].Y = 460;
 
             carPosition[1].X = 3250;
             carPosition[1].Y = 460;
 
-            carPosition[2].X = 4400;
+            carPosition[2].X = 4090;
             carPosition[2].Y = 460;
 
-            carPosition[3].X = 5000;
+            carPosition[3].X = 5920;
             carPosition[3].Y = 460;
 
 
-            //debrisBuildPosition[0].X = 1800;
-            //debrisBuildPosition[0].Y = 467;
+            labelsPosition[0].X = 1600;
+            labelsPosition[0].Y = 405;
 
-            //debrisBuildPosition[1].X = 3890;
-            //debrisBuildPosition[1].Y = 467;
+            labelsPosition[1].X = 2700;
+            labelsPosition[1].Y = 405;
 
-            //debrisBuildPosition[2].X = 5830;
-            //debrisBuildPosition[2].Y = 467;
+            labelsPosition[2].X = 4930;
+            labelsPosition[2].Y = 405;
 
-            //debrisBuildPosition[3].X = 6800;
-            //debrisBuildPosition[3].Y = 467;
+            labelsPosition[3].X = 5800;
+            labelsPosition[3].Y = 405;
+
+            labelsPosition[4].X = 6400;
+            labelsPosition[4].Y = 405;
+
 
             //debrisBuildPosition[0].X = 2200;
             //debrisBuildPosition[0].Y = 467;
@@ -425,7 +431,7 @@ namespace Project_game1
 
         void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
         {
-            MediaPlayer.Volume -= 0.1f;
+            MediaPlayer.Volume += 0.1f;
             MediaPlayer.Play(start);           
         }
 
@@ -521,6 +527,7 @@ namespace Project_game1
             playerSlide.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             docter.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
+            police_man.UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             if (playerPos.X < graphics.GraphicsDevice.Viewport.Width * 10 - 60)
             {
@@ -636,7 +643,7 @@ namespace Project_game1
 
             Rectangle playerRectangle = new Rectangle((int)playerPos.X, (int)playerPos.Y, 24, 24);
 
-            Rectangle policeRectangle = new Rectangle((int)policePos.X, (int)policePos.Y, police_man.Width, police_man.Height);
+            Rectangle policeRectangle = new Rectangle((int)policePos.X, (int)policePos.Y, 24, 24);
             if (playerRectangle.Intersects(policeRectangle) == true)
             {
                 if (evidences == 5)
@@ -847,30 +854,30 @@ namespace Project_game1
             //    }
             //}
 
-            //for (int i = 0; i < debrisBuildPosition.Length; i++)
-            //{
-            //    Rectangle blockRectangle = new Rectangle((int)debrisBuildPosition[i].X, (int)debrisBuildPosition[i].Y, debris_bulid.Width, debris_bulid.Height);
+            for (int i = 0; i < labelsPosition.Length; i++)
+            {
+                Rectangle blockRectangle = new Rectangle((int)labelsPosition[i].X, (int)labelsPosition[i].Y, labels.Width, 80);
 
-            //    if (playerRectangle.Intersects(blockRectangle) == true)
-            //    {
-            //        soundEffects[2].CreateInstance().Play();
+                if (playerRectangle.Intersects(blockRectangle) == true)
+                {
+                    soundEffects[2].CreateInstance().Play();
 
-            //        personHit = true;
+                    personHit = true;
 
-            //        carPosition[i].X = -50;
-            //        carPosition[i].Y = 700;
+                    carPosition[i].X = -50;
+                    carPosition[i].Y = 700;
 
-            //        currentHeart -= 50;
-            //        docDistance -= 100;
-            //        currentunTouchcountdown = 2;
-            //        isUntouch = false;
+                    currentHeart -= 50;
+                    docDistance -= 100;
+                    currentunTouchcountdown = 2;
+                    isUntouch = false;
 
-            //    }
-            //    else if (playerRectangle.Intersects(blockRectangle) == false)
-            //    {
-            //        personHit = false;
-            //    }
-            //}
+                }
+                else if (playerRectangle.Intersects(blockRectangle) == false)
+                {
+                    personHit = false;
+                }
+            }
 
 
             for (int i = 0; i < evidencePosition.Length; i++)
@@ -943,6 +950,7 @@ namespace Project_game1
             {
                 isTitle = false;              
                 isGameplay = true;
+
             }
 
         }
@@ -953,6 +961,9 @@ namespace Project_game1
             {                                
                 isGameplay = true;
                 isGamePause = false;
+
+                MediaPlayer.Play(start);
+                isPlayStart = true;
             }
         }
 
@@ -962,6 +973,8 @@ namespace Project_game1
             {
                 //playerPos -= new Vector2(2, 0);
                 RestartGame();
+                MediaPlayer.Play(start);
+                isPlayStart = true;
             }
 
         }
@@ -972,6 +985,8 @@ namespace Project_game1
             {
                 //playerPos -= new Vector2(2, 0);
                 RestartGame();
+                MediaPlayer.Play(start);
+                isPlayStart = true;
             }
         }
 
@@ -981,6 +996,8 @@ namespace Project_game1
             {
                 //playerPos -= new Vector2(2, 0);
                 RestartGame();
+                MediaPlayer.Play(start);
+                isPlayStart = true;
             }
         }
 
@@ -1014,6 +1031,7 @@ namespace Project_game1
             }
 
             docter.DrawFrame(spriteBatch, ((new Vector2(playerPos.X, 425) - cameraPos - new Vector2(docDistance, 0))));
+            police_man.DrawFrame(spriteBatch, (policePos - cameraPos));
 
 
             for (int i = 0; i < syringePosition.Length; i++)
@@ -1046,10 +1064,10 @@ namespace Project_game1
             //    spriteBatch.Draw(car2, car2Position[i] - cameraPos, new Rectangle(24 * car2Pos[i], 0, car2.Width, car2.Height), Color.White);
             //}
 
-            //for (int i = 0; i < debrisBuildPosition.Length; i++)
-            //{
-            //    spriteBatch.Draw(debris_bulid, debrisBuildPosition[i] - cameraPos, new Rectangle(24 * debrisBuildPos[i], 0, debris_bulid.Width, debris_bulid.Height), Color.White);
-            //}
+            for (int i = 0; i < labelsPosition.Length; i++)
+            {
+                spriteBatch.Draw(labels, labelsPosition[i] - cameraPos, new Rectangle(24 * labelsPos[i], 0, labels.Width, labels.Height), Color.White);
+            }
 
             for (int i = 0; i < evidencePosition.Length; i++)
             {
@@ -1083,8 +1101,8 @@ namespace Project_game1
                 spriteBatch.Draw(barStaminaTexture, new Rectangle(GraphicsDevice.Viewport.Width / 1 - barStaminaTexture.Width / 1 + 5, 55, (int)currentStamina, 45), new Rectangle(5, 5, barStaminaTexture.Width - 10, 50), Color.DarkBlue);
             }
 
-            spriteBatch.Draw(heart, new Vector2(480, 0), Color.White);
-            spriteBatch.Draw(stamina, new Vector2(480, 50), Color.White);
+            spriteBatch.Draw(heart, new Vector2(490, 0), Color.White);
+            spriteBatch.Draw(stamina, new Vector2(490, 55), Color.White);
 
             string str;
             str = "Evidence : " + evidences;
@@ -1094,8 +1112,6 @@ namespace Project_game1
             str2 = "Press LeftAlt to Pause Game";
             spriteBatch.DrawString(font, str2, new Vector2(5, 25), Color.White);
 
-            ////
-            spriteBatch.Draw(police_man, policePos - cameraPos, Color.White);
         }
 
         private void DrawTitle()
@@ -1158,6 +1174,7 @@ namespace Project_game1
 
             MediaPlayer.Play(start);
             isPlayStart = true;
+            MediaPlayer.Volume += 0.1f;
 
             ResetObjectPosition();
             
